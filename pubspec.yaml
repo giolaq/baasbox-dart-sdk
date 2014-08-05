@@ -1,0 +1,4 @@
+name: baasbox
+description: A pub package
+dependencies:
+  http: any
