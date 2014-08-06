@@ -3,6 +3,8 @@ library baasbox;
 import 'dart:core';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:async';
+
 //import 'dart:html';
 import 'package:http/http.dart' as http;
 
@@ -27,7 +29,7 @@ class BaasBox {
   var ANONYMOUS_ROLE = "anonymous";
   var REGISTERED_ROLE = "registered";
   var ADMINISTRATOR_ROLE = "administrator";
-  
+
   Cookie cookie;
 
   void setEndPoint(var endPointURL) {
@@ -41,7 +43,10 @@ class BaasBox {
 
   }
 
-  void login(String usr, String pwd) {
+  Future login(String usr, String pwd) {
+    var completer = new Completer();
+    Future ftr = completer.future;
+
     var url = 'http://localhost:9000/login';
     http.post(url, body: {
       'username': usr,
@@ -60,21 +65,41 @@ class BaasBox {
         "visibleByFriends": parsedBody["data"]["visibleByFriends"],
         "visibleByRegisteredUsers": parsedBody["data"]["visibleByRegisteredUsers"],
       });
-      print(getCurrentUser());
+      completer.complete(getCurrentUser());
 
     });
 
+    return ftr;
+
+  }
+
+  void logout() {
+    var url = 'http://localhost:9000/logout';
+
+    Map user = getCurrentUser();
+    if (user == null) {
+      print("already logged out");
+      //return deferred.reject({"data" : "ok", "message" : "User already logged out"})
+    } else http.post(url).then((response) {
+      Map parsedBody = JSON.decode(response.body);
+      print(parsedBody);
+      setCurrentUser(null);
+      cookie = null;
+    });
   }
 
   void setCurrentUser(var user) {
-    print( Uri.encodeFull(JSON.encode(user)));
-    cookie = new Cookie(COOKIE_KEY,  Uri.encodeComponent(JSON.encode(user)));
-  }
-  
-  Map getCurrentUser() {
-   return JSON.decode( Uri.decodeComponent(cookie.value) );
+    this.user = user;
+    cookie = new Cookie(COOKIE_KEY, Uri.encodeComponent(JSON.encode(user)));
   }
 
-  
+  Map getCurrentUser() {
+    if (cookie != null) {
+      this.user = JSON.decode(Uri.decodeComponent(cookie.value));
+    }
+    return this.user;
+  }
+
+
 
 }

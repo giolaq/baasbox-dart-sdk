@@ -6,6 +6,7 @@ void main() {
   bb.setEndPoint("http://localhost:9000");
   bb.appcode = "1234567890";
   
-  bb.login('test', 'test');
+  bb.login('test', 'test').then((value) => bb.logout());
+  bb.logout();
   
 }
