@@ -1,0 +1,5 @@
+name: example
+description: A sample web application using baasbox-dart-sdk
+dependencies:
+  browser: any
+  baasbox: any

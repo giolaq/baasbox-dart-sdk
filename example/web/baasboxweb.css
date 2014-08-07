@@ -1,0 +1,45 @@
+
+body {
+  background-color: #F8F8F8;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.2em;
+  margin: 15px;
+}
+
+h1, p {
+  color: #333;
+}
+
+#login {
+  width: 30%;
+  height: 60px;
+  position: relative;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+
+#logout {
+  width: 30%;
+  height: 60px;
+  position: relative;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+
+
+#signup {
+  width: 30%;
+  height: 60px;
+  position: relative;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+#sample_text_id {
+  font-size: 24pt;
+  text-align: center;
+  margin-top: 140px;
+  -webkit-user-select: none;
+  user-select: none;
+}
