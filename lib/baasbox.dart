@@ -93,14 +93,14 @@ class BaasBox {
       print("already logged out");
       //return deferred.reject({"data" : "ok", "message" : "User already logged out"})
     } else {
-    HttpRequest request = new HttpRequest();
-    request
-        ..open('POST', url)
-        ..setRequestHeader('X-BB-SESSION', user['token'])
-        ..setRequestHeader('X-BAASBOX-APPCODE', appcode)
-        ..setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
-        ..onLoadEnd.listen((e) => handleLogoutResponse(request))
-        ..send();
+      HttpRequest request = new HttpRequest();
+      request
+          ..open('POST', url)
+          ..setRequestHeader('X-BB-SESSION', user['token'])
+          ..setRequestHeader('X-BAASBOX-APPCODE', appcode)
+          ..setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+          ..onLoadEnd.listen((e) => handleLogoutResponse(request))
+          ..send();
     }
   }
 
@@ -135,20 +135,20 @@ class BaasBox {
       'password': pwd
     };
 
-    acl.forEach( (key, value) => postData['key'] = value);
+    acl.forEach((key, value) => postData['key'] = value);
 
     // later...
     // convert the JsonObject data back to a string
     String json = JSON.encode(postData);
-    
+
     HttpRequest request = new HttpRequest();
-      request
-          ..open('POST', url)
-          ..setRequestHeader('X-BAASBOX-APPCODE', appcode)
-          ..setRequestHeader('Content-type', 'application/json')
-          ..onLoadEnd.listen((e) => handleLoginResponse(request))
-          ..send(json);
-    
+    request
+        ..open('POST', url)
+        ..setRequestHeader('X-BAASBOX-APPCODE', appcode)
+        ..setRequestHeader('Content-type', 'application/json')
+        ..onLoadEnd.listen((e) => handleLoginResponse(request))
+        ..send(json);
+
     return ftr;
   }
 
