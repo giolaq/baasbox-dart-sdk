@@ -65,7 +65,7 @@ class BaasBox {
   }
 
   void handleLoginResponse(HttpRequest request) {
-    if (request.status == 200) {
+    if (request.status == 200 || request.status == 201) {
       Map parsedBody = JSON.decode(request.response);
       List roles = [];
       parsedBody["data"]["user"]["roles"].forEach((element) => roles.add(element['name']));
@@ -135,13 +135,21 @@ class BaasBox {
       'password': pwd
     };
 
-    for (var prop in acl) {
-      postData['prop'] = acl[prop];
-    }
+    acl.forEach( (key, value) => postData['key'] = value);
 
     // later...
     // convert the JsonObject data back to a string
     String json = JSON.encode(postData);
+    
+    HttpRequest request = new HttpRequest();
+      request
+          ..open('POST', url)
+          ..setRequestHeader('X-BAASBOX-APPCODE', appcode)
+          ..setRequestHeader('Content-type', 'application/json')
+          ..onLoadEnd.listen((e) => handleLoginResponse(request))
+          ..send(json);
+    
+    return ftr;
   }
 
   String encodeMap(Map data) {
