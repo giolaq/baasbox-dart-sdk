@@ -2,17 +2,16 @@ library baasbox;
 
 import 'dart:core';
 import 'dart:convert';
-import 'dart:io';
 import 'dart:async';
+import 'dart:html';
 
-//import 'dart:html';
 import 'package:http/http.dart' as http;
 
 class BaasBox {
 
   var instance;
   var user;
-  var endPoint;
+  String endPoint;
   var COOKIE_KEY = "baasbox-cookie";
 
   var appcode = "";
@@ -30,15 +29,20 @@ class BaasBox {
   var REGISTERED_ROLE = "registered";
   var ADMINISTRATOR_ROLE = "administrator";
 
-  Cookie cookie;
+  Map cookie;
+
+  BaasBox() {
+    cookie= new Map();
+    this.endPoint='http://localhost:9000';
+  }
 
   void setEndPoint(var endPointURL) {
-    String regExpString = r'/(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/';
+    String regExpString = r"(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?";
     RegExp regExp = new RegExp(regExpString);
-    if (regExp.firstMatch(endPointURL) != null) {
+    if (regExp.allMatches(endPointURL).isNotEmpty) {
       endPoint = endPointURL;
     } else {
-      // window.alert('$endPointURL is not a valid URL');
+      window.alert('$endPointURL is not a valid URL');
     }
 
   }
@@ -47,13 +51,26 @@ class BaasBox {
     var completer = new Completer();
     Future ftr = completer.future;
 
-    var url = 'http://localhost:9000/login';
-    http.post(url, body: {
+    var url = endPoint + '/login';
+    Map requestBody = {
       'username': usr,
       'password': pwd,
       'appcode': appcode
-    }).then((response) {
-      Map parsedBody = JSON.decode(response.body);
+    };
+    HttpRequest request = new HttpRequest();
+    request
+        ..open('POST', url)
+        ..setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+        ..onLoadEnd.listen((e) => handleLoginResponse(request))
+        ..send(encodeMap(requestBody));
+
+    return ftr;
+
+  }
+
+  void handleLoginResponse(HttpRequest request) {
+    if (request.status == 200) {
+      Map parsedBody = JSON.decode(request.response);
       List roles = [];
       parsedBody["data"]["user"]["roles"].forEach((element) => roles.add(element['name']));
       setCurrentUser({
@@ -65,11 +82,10 @@ class BaasBox {
         "visibleByFriends": parsedBody["data"]["visibleByFriends"],
         "visibleByRegisteredUsers": parsedBody["data"]["visibleByRegisteredUsers"],
       });
-      completer.complete(getCurrentUser());
+    } else {
+      print('Login error ' + request.response);
+    }
 
-    });
-
-    return ftr;
 
   }
 
@@ -90,12 +106,12 @@ class BaasBox {
 
   void setCurrentUser(var user) {
     this.user = user;
-    cookie = new Cookie(COOKIE_KEY, Uri.encodeComponent(JSON.encode(user)));
+    cookie[COOKIE_KEY] = Uri.encodeComponent(JSON.encode(user));
   }
 
   Map getCurrentUser() {
     if (cookie != null) {
-      this.user = JSON.decode(Uri.decodeComponent(cookie.value));
+      this.user = JSON.decode(Uri.decodeComponent(cookie[COOKIE_KEY]));
     }
     return this.user;
   }
@@ -120,6 +136,10 @@ class BaasBox {
     String json = JSON.encode(postData);
   }
 
-
+  String encodeMap(Map data) {
+    return data.keys.map((k) {
+      return '${Uri.encodeComponent(k)}=${Uri.encodeComponent(data[k])}';
+    }).join('&');
+  }
 
 }
