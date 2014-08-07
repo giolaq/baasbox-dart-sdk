@@ -100,6 +100,26 @@ class BaasBox {
     return this.user;
   }
 
+  Future signup(var user, var pwd, Map acl) {
+    var completer = new Completer();
+    Future ftr = completer.future;
+
+    var url = 'http://localhost:9000/user';
+
+    var postData = {
+      'username': user,
+      'password': pwd
+    };
+
+    for (var prop in acl) {
+      postData['prop'] = acl[prop];
+    }
+
+    // later...
+    // convert the JsonObject data back to a string
+    String json = JSON.encode(postData);
+  }
+
 
 
 }

@@ -7,6 +7,5 @@ void main() {
   bb.appcode = "1234567890";
   
   bb.login('test', 'test').then((value) => bb.logout());
-  bb.logout();
   
 }
