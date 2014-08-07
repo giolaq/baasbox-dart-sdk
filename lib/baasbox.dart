@@ -51,7 +51,7 @@ class BaasBox {
     var completer = new Completer();
     Future ftr = completer.future;
 
-    var url = endPoint + '/login';
+    var url = this.endPoint + '/login';
     Map requestBody = {
       'username': usr,
       'password': pwd,

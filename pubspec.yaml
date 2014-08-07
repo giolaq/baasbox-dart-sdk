@@ -1,4 +1,6 @@
 name: baasbox
-description: A pub package
+version: 0.0.1
+author: Giovanni Laquidara <glaquidara@gmail.com>
+description: BaasBox-Dart-SDK
 dependencies:
   http: any
