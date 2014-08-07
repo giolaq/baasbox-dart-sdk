@@ -5,7 +5,6 @@ import 'dart:convert';
 import 'dart:async';
 import 'dart:html';
 
-import 'package:http/http.dart' as http;
 
 class BaasBox {
 
@@ -29,11 +28,8 @@ class BaasBox {
   var REGISTERED_ROLE = "registered";
   var ADMINISTRATOR_ROLE = "administrator";
 
-  Map cookie;
-
   BaasBox() {
-    cookie= new Map();
-    this.endPoint='http://localhost:9000';
+    this.endPoint = 'http://localhost:9000';
   }
 
   void setEndPoint(var endPointURL) {
@@ -90,29 +86,41 @@ class BaasBox {
   }
 
   void logout() {
-    var url = 'http://localhost:9000/logout';
+    var url = this.endPoint + '/logout';
 
     Map user = getCurrentUser();
     if (user == null) {
       print("already logged out");
       //return deferred.reject({"data" : "ok", "message" : "User already logged out"})
-    } else http.post(url).then((response) {
-      Map parsedBody = JSON.decode(response.body);
-      print(parsedBody);
+    } else {
+    HttpRequest request = new HttpRequest();
+    request
+        ..open('POST', url)
+        ..setRequestHeader('X-BB-SESSION', user['token'])
+        ..setRequestHeader('X-BAASBOX-APPCODE', appcode)
+        ..setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+        ..onLoadEnd.listen((e) => handleLogoutResponse(request))
+        ..send();
+    }
+  }
+
+  void handleLogoutResponse(HttpRequest request) {
+    if (request.status == 200) {
+      Map parsedBody = JSON.decode(request.response);
+      print('Logout Ok');
       setCurrentUser(null);
-      cookie = null;
-    });
+    } else {
+      print('Logout error ' + request.response);
+    }
+
+
   }
 
   void setCurrentUser(var user) {
     this.user = user;
-    cookie[COOKIE_KEY] = Uri.encodeComponent(JSON.encode(user));
   }
 
   Map getCurrentUser() {
-    if (cookie != null) {
-      this.user = JSON.decode(Uri.decodeComponent(cookie[COOKIE_KEY]));
-    }
     return this.user;
   }
 
