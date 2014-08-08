@@ -1,5 +1,8 @@
 name: baasbox
 version: 0.0.1
 author: Giovanni Laquidara <glaquidara@gmail.com>
-homepage: https://github.com/joaobiriba/baasbox-dart-sdk
 description: BaasBox-Dart-SDK
+homepage: https://github.com/joaobiriba/baasbox-dart-sdk
+dev_dependencies:
+  unittest: any
+  browser: any
