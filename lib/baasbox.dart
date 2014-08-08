@@ -158,4 +158,40 @@ class BaasBox {
     }).join('&');
   }
 
+
+  Future fetchCurrentUser() {
+    var completer = new Completer();
+    Future ftr = completer.future;
+
+    var url = this.endPoint + '/me';
+
+    if (user != null) {
+      HttpRequest request = new HttpRequest();
+      request
+          ..open('GET', url)
+          ..setRequestHeader('X-BB-SESSION', user['token'])
+          ..setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+          ..onLoadEnd.listen((e) => handleUserResponse(request))
+          ..send();
+
+    }
+
+    return ftr;
+
+  }
+
+  void handleUserResponse(HttpRequest request) {
+    if (request.status == 200) {
+      Map parsedBody = JSON.decode(request.response);
+      List roles = [];
+      parsedBody["data"]["user"]["roles"].forEach((element) => roles.add(element['name']));
+      print(parsedBody["data"]["user"]["name"]);
+      print(parsedBody["data"]["user"]["status"]);
+
+    } else {
+      print('Login error ' + request.response);
+    }
+
+
+  }
 }
