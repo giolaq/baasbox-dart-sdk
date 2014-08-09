@@ -43,7 +43,7 @@ class BaasBox {
 
   }
 
-  Future login(String usr, String pwd) {
+  Future<Map> login(String usr, String pwd) {
     var completer = new Completer();
     Future ftr = completer.future;
 
@@ -57,7 +57,7 @@ class BaasBox {
     request
         ..open('POST', url)
         ..setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
-        ..onLoadEnd.listen((e) => handleLoginResponse(request))
+        ..onLoadEnd.listen((event) => completer.complete(JSON.decode(request.response)))
         ..send(encodeMap(requestBody));
 
     return ftr;
