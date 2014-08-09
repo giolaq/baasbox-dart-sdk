@@ -129,7 +129,7 @@ class BaasBox {
     var completer = new Completer();
     Future ftr = completer.future;
 
-    var url = 'http://localhost:9000/user';
+    var url = this.endPoint + '/user';
 
     var postData = {
       'username': user,
@@ -160,7 +160,7 @@ class BaasBox {
   }
 
 
-  Future fetchCurrentUser() {
+  Future<Map> fetchCurrentUser() {
     var completer = new Completer();
     Future ftr = completer.future;
 
@@ -172,7 +172,7 @@ class BaasBox {
           ..open('GET', url)
           ..setRequestHeader('X-BB-SESSION', user['token'])
           ..setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
-          ..onLoadEnd.listen((e) => handleUserResponse(request))
+          ..onLoadEnd.listen((e) => completer.complete(handleUserResponse(request)))
           ..send();
 
     }
@@ -181,18 +181,54 @@ class BaasBox {
 
   }
 
-  void handleUserResponse(HttpRequest request) {
+  Map handleUserResponse(HttpRequest request) {
+    Map parsedBody = new Map();
     if (request.status == 200) {
-      Map parsedBody = JSON.decode(request.response);
+      parsedBody = JSON.decode(request.response);
       List roles = [];
       parsedBody["data"]["user"]["roles"].forEach((element) => roles.add(element['name']));
-      print(parsedBody["data"]["user"]["name"]);
-      print(parsedBody["data"]["user"]["status"]);
-
     } else {
-      print('Login error ' + request.response);
+      print('fetchCurrentUser error ' + request.response);
     }
 
+   return parsedBody;
 
   }
+  
+  
+  Future<Map> createDocument(String collection, Map document) {
+      var completer = new Completer();
+      Future ftr = completer.future;
+
+      var url = this.endPoint + '/document/' + collection;
+
+      // later...
+      // convert the JsonObject data back to a string
+      String json = JSON.encode(document);
+
+      HttpRequest request = new HttpRequest();
+      request
+          ..open('POST', url)
+          ..setRequestHeader('Access-Control-Allow-Origin', '*')
+          ..setRequestHeader('X-BB-SESSION', user['token'])
+          ..setRequestHeader('Content-type', 'application/json')
+          ..onLoadEnd.listen((e) => completer.complete(handleCreateDocumentResponse(request)))
+          ..send(json);
+
+      return ftr;
+  }
+  
+  Map handleCreateDocumentResponse(HttpRequest request) {
+    Map parsedBody = new Map();
+    if (request.status == 200 || request.status == 201) {
+      parsedBody = JSON.decode(request.response);
+      print(parsedBody);
+    
+    } else {
+      print('CreateDocument error ' + request.response);
+    }
+
+    return parsedBody;
+  }
+
 }

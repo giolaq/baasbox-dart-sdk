@@ -46,10 +46,43 @@ void main() {
 
      test('login not ok', () {
        Future<Map> future = bb.login('testo', 'testa');
-         expect(future, completion( containsPair('result', 'error') ));
+         //expect(future, completion( containsPair('result', 'error') ));
          //expect(future, completion( containsPair("name", 'test') ));
        expect(future, completes);
 
      });
    });
+  
+  
+  group('fetchCurrentUser ', () {
+       setUp(() {
+         bb = new BaasBox();
+         bb.setEndPoint("http://localhost:9000");
+         bb.appcode = "1234567890";
+       });
+
+       test('fetchCurrentUser ok', () {
+   
+         Future<Map> futureFetchUser = bb.login('test', 'test').then( (value) => bb.fetchCurrentUser());
+         expect(futureFetchUser, completes);
+         
+       });
+     });
+  
+
+  group('Document ', () {
+       setUp(() {
+         bb = new BaasBox();
+         bb.setEndPoint("http://localhost:9000");
+         bb.appcode = "1234567890";
+       });
+
+       test('Create Document ok', () {
+         Map document = { 'title': 'testdocument', 'id':4342352, 'sometext': 'Lorem ipsum'};
+   
+         Future<Map> futureFetchUser = bb.login('test', 'test').then( (value) => bb.createDocument("testcollection",document));
+         expect(futureFetchUser, completes);
+         
+       });
+     });
 }
