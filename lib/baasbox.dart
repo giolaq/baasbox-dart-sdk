@@ -57,16 +57,17 @@ class BaasBox {
     request
         ..open('POST', url)
         ..setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
-        ..onLoadEnd.listen((event) => completer.complete(JSON.decode(request.response)))
+        ..onLoadEnd.listen((event) => completer.complete(handleLoginResponse(request)))
         ..send(encodeMap(requestBody));
 
     return ftr;
 
   }
 
-  void handleLoginResponse(HttpRequest request) {
+  Map handleLoginResponse(HttpRequest request) {
+    Map parsedBody = new Map();
     if (request.status == 200 || request.status == 201) {
-      Map parsedBody = JSON.decode(request.response);
+      parsedBody = JSON.decode(request.response);
       List roles = [];
       parsedBody["data"]["user"]["roles"].forEach((element) => roles.add(element['name']));
       setCurrentUser({
@@ -82,7 +83,7 @@ class BaasBox {
       print('Login error ' + request.response);
     }
 
-
+    return parsedBody;
   }
 
   void logout() {
@@ -124,7 +125,7 @@ class BaasBox {
     return this.user;
   }
 
-  Future signup(var user, var pwd, Map acl) {
+  Future<Map> signup(var user, var pwd, Map acl) {
     var completer = new Completer();
     Future ftr = completer.future;
 
@@ -146,7 +147,7 @@ class BaasBox {
         ..open('POST', url)
         ..setRequestHeader('X-BAASBOX-APPCODE', appcode)
         ..setRequestHeader('Content-type', 'application/json')
-        ..onLoadEnd.listen((e) => handleLoginResponse(request))
+        ..onLoadEnd.listen((e) => completer.complete(handleLoginResponse(request)))
         ..send(json);
 
     return ftr;
