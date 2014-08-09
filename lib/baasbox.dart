@@ -209,7 +209,6 @@ class BaasBox {
       HttpRequest request = new HttpRequest();
       request
           ..open('POST', url)
-          ..setRequestHeader('Access-Control-Allow-Origin', '*')
           ..setRequestHeader('X-BB-SESSION', user['token'])
           ..setRequestHeader('Content-type', 'application/json')
           ..onLoadEnd.listen((e) => completer.complete(handleCreateDocumentResponse(request)))
@@ -230,5 +229,37 @@ class BaasBox {
 
     return parsedBody;
   }
+  
+  
+  
+   Future<Map> fetchDocument(String collection, String documentId) {
+       var completer = new Completer();
+       Future ftr = completer.future;
+
+       var url = this.endPoint + '/document/' + collection + '/' + documentId;
+
+       HttpRequest request = new HttpRequest();
+       request
+           ..open('POST', url)
+           ..setRequestHeader('X-BB-SESSION', user['token'])
+           ..setRequestHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:8080')
+           ..onLoadEnd.listen((e) => completer.complete(handleFetchDocumentResponse(request)))
+           ..send();
+
+       return ftr;
+   }
+   
+   Map handleFetchDocumentResponse(HttpRequest request) {
+     Map parsedBody = new Map();
+     if (request.status == 200 || request.status == 201) {
+       parsedBody = JSON.decode(request.response);
+       print(parsedBody);
+     
+     } else {
+       print('FetchDocument error ' + request.response);
+     }
+
+     return parsedBody;
+   }
 
 }
