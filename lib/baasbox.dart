@@ -242,7 +242,6 @@ class BaasBox {
        request
            ..open('POST', url)
            ..setRequestHeader('X-BB-SESSION', user['token'])
-           ..setRequestHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:8080')
            ..onLoadEnd.listen((e) => completer.complete(handleFetchDocumentResponse(request)))
            ..send();
 
