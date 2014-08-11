@@ -120,6 +120,18 @@ void main() {
 
     });
 
+    test('Delete Document ok', () {
+          String collection = 'testcollection';
+          Map document = {
+            'title': 'testdocumentToDelete',
+            'idx': 4342352,
+            'sometext': 'Lorem ipsum 2'
+          };
+
+          Future<Map> futureCreateDocument = bb.login('test', 'test').then((value) => bb.createDocument(collection, document).then((value) => bb.deleteDocument(collection, value['data']['id'])));
+
+        });
+
 
   });
 }
