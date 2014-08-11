@@ -191,74 +191,108 @@ class BaasBox {
       print('fetchCurrentUser error ' + request.response);
     }
 
-   return parsedBody;
+    return parsedBody;
 
   }
-  
-  
+
+
   Future<Map> createDocument(String collection, Map document) {
-      var completer = new Completer();
-      Future ftr = completer.future;
+    var completer = new Completer();
+    Future ftr = completer.future;
 
-      var url = this.endPoint + '/document/' + collection;
+    var url = this.endPoint + '/document/' + collection;
 
-      // later...
-      // convert the JsonObject data back to a string
-      String json = JSON.encode(document);
+    // later...
+    // convert the JsonObject data back to a string
+    String json = JSON.encode(document);
 
-      HttpRequest request = new HttpRequest();
-      request
-          ..open('POST', url)
-          ..setRequestHeader('X-BB-SESSION', user['token'])
-          ..setRequestHeader('Content-type', 'application/json')
-          ..onLoadEnd.listen((e) => completer.complete(handleCreateDocumentResponse(request)))
-          ..send(json);
+    HttpRequest request = new HttpRequest();
+    request
+        ..open('POST', url)
+        ..setRequestHeader('X-BB-SESSION', user['token'])
+        ..setRequestHeader('Content-type', 'application/json')
+        ..onLoadEnd.listen((e) => completer.complete(handleCreateDocumentResponse(request)))
+        ..send(json);
 
-      return ftr;
+    return ftr;
   }
-  
+
   Map handleCreateDocumentResponse(HttpRequest request) {
     Map parsedBody = new Map();
     if (request.status == 200 || request.status == 201) {
       parsedBody = JSON.decode(request.response);
       print(parsedBody);
-    
+
     } else {
       print('CreateDocument error ' + request.response);
     }
 
     return parsedBody;
   }
-  
-  
-  
-   Future<Map> fetchDocument(String collection, String documentId) {
-       var completer = new Completer();
-       Future ftr = completer.future;
 
-       var url = this.endPoint + '/document/' + collection + '/' + documentId;
 
-       HttpRequest request = new HttpRequest();
-       request
-           ..open('POST', url)
-           ..setRequestHeader('X-BB-SESSION', user['token'])
-           ..onLoadEnd.listen((e) => completer.complete(handleFetchDocumentResponse(request)))
-           ..send();
 
-       return ftr;
-   }
-   
-   Map handleFetchDocumentResponse(HttpRequest request) {
-     Map parsedBody = new Map();
-     if (request.status == 200 || request.status == 201) {
-       parsedBody = JSON.decode(request.response);
-       print(parsedBody);
-     
-     } else {
-       print('FetchDocument error ' + request.response);
-     }
+  Future<Map> fetchDocument(String collection, String documentId) {
+    var completer = new Completer();
+    Future ftr = completer.future;
 
-     return parsedBody;
-   }
+    var url = this.endPoint + '/document/' + collection + '/' + documentId;
+
+    HttpRequest request = new HttpRequest();
+    request
+        ..open('POST', url)
+        ..setRequestHeader('X-BB-SESSION', user['token'])
+        ..onLoadEnd.listen((e) => completer.complete(handleFetchDocumentResponse(request)))
+        ..send();
+
+    return ftr;
+  }
+
+  Map handleFetchDocumentResponse(HttpRequest request) {
+    Map parsedBody = new Map();
+    if (request.status == 200 || request.status == 201) {
+      parsedBody = JSON.decode(request.response);
+      print(parsedBody);
+
+    } else {
+      print('FetchDocument error ' + request.response);
+    }
+
+    return parsedBody;
+  }
+
+
+  Future<Map> updateDocument(String collection, String documentId, Map document) {
+    var completer = new Completer();
+    Future ftr = completer.future;
+
+    var url = this.endPoint + '/document/' + collection + '/' + documentId;
+    String json = JSON.encode(document);
+
+    HttpRequest request = new HttpRequest();
+    request
+        ..open('PUT', url)
+        ..setRequestHeader('X-BB-SESSION', user['token'])
+        ..setRequestHeader('Content-type', 'application/json')
+        ..onLoadEnd.listen((e) => completer.complete(handleUpdateDocumentResponse(request)))
+        ..send(json);
+    
+    return ftr;
+
+  }
+
+  Map handleUpdateDocumentResponse(HttpRequest request) {
+    Map parsedBody = new Map();
+    if (request.status == 200 || request.status == 201) {
+      parsedBody = JSON.decode(request.response);
+      print(parsedBody);
+
+    } else {
+      print('FetchDocument error ' + request.response);
+    }
+
+    return parsedBody;
+  }
+
 
 }

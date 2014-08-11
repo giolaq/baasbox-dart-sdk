@@ -80,7 +80,7 @@ void main() {
     test('Create Document ok', () {
       Map document = {
         'title': 'testdocument',
-        'id': 4342352,
+        'idx': 4342352,
         'sometext': 'Lorem ipsum'
       };
 
@@ -94,12 +94,29 @@ void main() {
       String collection = 'testcollection';
       Map document = {
         'title': 'testdocument2',
-        'id': 4342352,
+        'idx': 4342352,
         'sometext': 'Lorem ipsum 2'
       };
 
-      Future<Map> futureCreateDocument = bb.login('test', 'test').then
-          ((value) => bb.createDocument(collection, document).then((value) => bb.fetchDocument(collection, value['data']['id'])));
+      Future<Map> futureCreateDocument = bb.login('test', 'test').then((value) => bb.createDocument(collection, document).then((value) => bb.fetchDocument(collection, value['data']['id'])));
+
+    });
+
+    test('Update Document ok', () {
+      String collection = 'testcollection';
+      Map document = {
+        'title': 'testdocument3',
+        'idx': 4342352,
+        'sometext': 'Lorem ipsum 2'
+      };
+
+      Map newDocument = {
+        'title': 'testdocument3',
+        'idx': 5556666,
+        'sometext': 'Lorem  2'
+      };
+
+      Future<Map> futureCreateDocument = bb.login('test', 'test').then((value) => bb.createDocument(collection, document).then((value) => bb.updateDocument(collection, value['data']['id'], newDocument)));
 
     });
 
