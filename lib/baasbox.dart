@@ -288,7 +288,7 @@ class BaasBox {
       print(parsedBody);
 
     } else {
-      print('FetchDocument error ' + request.response);
+      print('Update Document error ' + request.response);
     }
 
     return parsedBody;
@@ -320,11 +320,41 @@ class BaasBox {
       print(parsedBody);
 
     } else {
-      print('FetchDocument error ' + request.response);
+      print('Delete Document error ' + request.response);
     }
 
     return parsedBody;
   }
+  
+  
+  Future<Map> countDocuments(String collection) {
+      var completer = new Completer();
+      Future ftr = completer.future;
+
+      var url = this.endPoint + '/document/' + collection + '/count';
+      HttpRequest request = new HttpRequest();
+      request
+          ..open('GET', url)
+          ..setRequestHeader('X-BB-SESSION', user['token'])
+          ..onLoadEnd.listen((e) => completer.complete(handleCountDocumentsResponse(request)))
+          ..send();
+      
+      return ftr;
+
+    }
+
+    Map handleCountDocumentsResponse(HttpRequest request) {
+      Map parsedBody = new Map();
+      if (request.status == 200 || request.status == 201) {
+        parsedBody = JSON.decode(request.response);
+        print(parsedBody);
+
+      } else {
+        print('CountDocument error ' + request.response);
+      }
+
+      return parsedBody;
+    }
 
 
 }

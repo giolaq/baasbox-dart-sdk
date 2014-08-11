@@ -131,6 +131,14 @@ void main() {
           Future<Map> futureCreateDocument = bb.login('test', 'test').then((value) => bb.createDocument(collection, document).then((value) => bb.deleteDocument(collection, value['data']['id'])));
 
         });
+    
+    test('Counts Documents ok', () {
+             String collection = 'testcollection';
+           
+
+             Future<Map> futureCreateDocument = bb.login('test', 'test').then((value) => bb.countDocuments(collection));
+
+           });
 
 
   });
