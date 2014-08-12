@@ -5,6 +5,12 @@ import 'dart:convert';
 import 'dart:async';
 import 'dart:html';
 
+import 'dart:collection';
+
+part 'baasbox_context.dart';
+part 'baasbox_config.dart';
+part 'baasbox_user.dart';
+
 
 class BaasBox {
 

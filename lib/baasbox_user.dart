@@ -1,0 +1,23 @@
+part of baasbox;
+
+
+class BaasBoxUser {
+
+
+  String _username;
+  String _password;
+  String _authToken;
+  String _signupDate;
+  String _status;
+
+  HashSet<String> roles;
+
+
+  BaasBoxUser(this._username, this._password, this._signupDate, this._status, this._authToken);
+
+
+  BaasBoxUser.withUserName(this._username);
+
+  set password(String password) => _password = password;
+
+}
