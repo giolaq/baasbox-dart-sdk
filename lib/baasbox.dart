@@ -10,7 +10,7 @@ import 'dart:collection';
 part 'baasbox_context.dart';
 part 'baasbox_config.dart';
 part 'baasbox_user.dart';
-
+part 'baasbox_request.dart';
 
 class BaasBox {
 
