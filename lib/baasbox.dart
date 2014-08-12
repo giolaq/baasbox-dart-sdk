@@ -356,5 +356,37 @@ class BaasBox {
       return parsedBody;
     }
 
+    
+
+  Future<Map> createCollection(String collection) {
+    var completer = new Completer();
+    Future ftr = completer.future;
+
+    var url = this.endPoint + '/admin/collection/' + collection;
+
+    HttpRequest request = new HttpRequest();
+    request
+        ..open('POST', url)
+        ..setRequestHeader('X-BB-SESSION', user['token'])
+        ..onLoadEnd.listen((e) => completer.complete(handleCreateCollectionResponse(request)))
+        ..send();
+
+    return ftr;
+  }
+
+  Map handleCreateCollectionResponse(HttpRequest request) {
+    Map parsedBody = new Map();
+    if (request.status == 200 || request.status == 201) {
+      parsedBody = JSON.decode(request.response);
+      print(parsedBody);
+
+    } else {
+      print('Create Collection error ' + request.response);
+    }
+
+    return parsedBody;
+  }
+
+
 
 }

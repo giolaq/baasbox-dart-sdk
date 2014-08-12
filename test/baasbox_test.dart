@@ -69,6 +69,22 @@ void main() {
     });
   });
 
+  
+  group('Collections ', () {
+      setUp(() {
+        bb = new BaasBox();
+        bb.setEndPoint("http://localhost:9000");
+        bb.appcode = "1234567890";
+      });
+
+      test('Create Collection ', () {
+
+        Future<Map> futureFetchUser = bb.login('admin', 'admin').then((value) => bb.createCollection("mynewcollection"));
+        expect(futureFetchUser, completes);
+
+      });
+    });
+
 
   group('Document ', () {
     setUp(() {
