@@ -15,5 +15,9 @@ class BaasBoxContext {
   }
 
   BaasBoxContext._internal(this.config);
+  
+  get endpoint => 'http://' + config.apiDomain + ':' + config.httpPort.toString();
+  
+  get appcode => config.appCode;
 
 }

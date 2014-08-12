@@ -163,15 +163,33 @@ void main() {
   group('OO BaasBox Dart SDK User ', () {
     BaasBoxConfig bbConfig;
     BaasBoxContext bbCtxt;
+    String apiBasepath = "/";
+    String apiDomain = "127.0.0.1";
+    String appCode = "1234567890";
+    String authenticationType = "SESSION_TOKEN";
+    String httpCharset = "UTF-8";
+    int httpConnectionTimeout = 6000;
+    int httpSocketTimeout = 10000;
+    int httpPort = 9000;
+    int keystoreRes = 0;
+    String mKeyStorePass = null;
+    bool sessionTokenExpires = false;
+    List<String> senderIds;
+    bool useHttps = false;
+    String password = null;
+
     setUp(() {
-      //bbConfig = new BaasBoxConfig(apiBasepath, apiDomain, appCode, authenticationType, httpCharset, httpConnectionTimeout, httpPort, httpSocketTimeout, keystoreRes, password, senderIds, sessionTokenExpires, useHttps);
+      bbConfig = new BaasBoxConfig(apiBasepath, apiDomain, appCode, authenticationType, httpCharset, 
+          httpConnectionTimeout, httpPort, httpSocketTimeout, keystoreRes,
+          password, senderIds, sessionTokenExpires, useHttps);
       bbCtxt = new BaasBoxContext(bbConfig);
 
     });
 
     test('Create User ', () {
-        BaasBoxUser aBBUser = new BaasBoxUser.withUserName("Giovanni");
-        //Future result = aBBuser.signup();
+        BaasBoxUser aBBUser = new BaasBoxUser.withUserName("Google");
+        Future result = aBBUser.signup();
+        expect(result, completes);
 
     });
   });
