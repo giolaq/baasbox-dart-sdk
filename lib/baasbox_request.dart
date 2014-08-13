@@ -26,17 +26,17 @@ class BaasBoxRequest {
 
   static String _initApiRoot(BaasBoxConfig config) {
     StringBuffer api = new StringBuffer();
-    api.write(config.useHttps ? "https://" : "http://");
-    api.write(config.apiDomain);
+    api.write(config.mUseHttps ? "https://" : "http://");
+    api.write(config.mApiDomain);
     api.write(":");
-    api.write(config.httpPort);
-    if (config.apiBasepath == null || config.apiBasepath.isEmpty) {
+    api.write(config.mHttpPort);
+    if (config.mApiBasepath == null || config.mApiBasepath.isEmpty) {
       api.write('/');
-    } else if (config.apiBasepath.startsWith("/")) {
-      api.write(config.apiBasepath);
+    } else if (config.mApiBasepath.startsWith("/")) {
+      api.write(config.mApiBasepath);
     } else {
       api.write('/');
-      api.write(config.apiBasepath);
+      api.write(config.mApiBasepath);
     }
 
     return api.toString();
@@ -45,6 +45,7 @@ class BaasBoxRequest {
 
 
   String getEndpointRaw(String endpoint) {
+
     if (endpoint.startsWith("/")) {
       endpoint = endpoint.substring(1);
     }
@@ -52,7 +53,9 @@ class BaasBoxRequest {
   }
 
 
-  HttpRequest any(Completer completer, String method, String endpoint, Map body,[handler()]) {
+  HttpRequest any(Completer completer, String method, String endpointApi, Map body,[handler()]) {
+    String endpoint = getEndpointRaw(endpointApi);
+    print(endpoint);
     HttpRequest request;
     switch (method) {
       case 'GET':
@@ -86,7 +89,7 @@ class BaasBoxRequest {
 
     httpR
         ..open('POST', endpoint)
-        ..setRequestHeader(APPCODE_HEADER_NAME, _config.appCode)
+        ..setRequestHeader(APPCODE_HEADER_NAME, _config.mAppCode)
         ..setRequestHeader(CONTENT_HEADER, JSON_CONTENT);
 
     if (body != null) {

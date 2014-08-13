@@ -1,54 +1,69 @@
 part of baasbox;
 
 class BaasBoxConfig {
+  static final String apiBasepath = "/";
+  static final String apiDomain = "127.0.0.1";
+  static final String appCode = "1234567890";
+  static final String authenticationType = "SESSION_TOKEN";
+  static final String httpCharset = "UTF-8";
+  static final int httpConnectionTimeout = 6000;
+  static final int httpSocketTimeout = 10000;
+  static final int httpPort = 9000;
+  static final int keystoreRes = 0;
+  static final String keyStorePass = null;
+  static final bool sessionTokenExpires = false;
+  static final bool useHttps = false;
+  static final String password = null;
 
-  final String password;
-  final int keystoreRes;
+
+
+  String mPassword;
+  int mKeystoreRes;
 
 
   /**
    * if <code>true</code> the SDK use HTTPs protocol. Default is
    * <code>false</code>.
    */
-  final bool useHttps;
+  bool mUseHttps;
 
   /**
    * The charset used for the HTTP connection, default is <code>UTF-8</code>.
    */
-  final String httpCharset;
+  String mHttpCharset;
 
   /**
   * The port number of the server connection, default is <code>9000</code>.
   */
-  final int httpPort;
+  int mHttpPort;
 
   /**
    * Sets the timeout until a connection is established. A value of zero means
    * the timeout is not used. The default value is 6000.
    */
-  final int httpConnectionTimeout;
+  int mHttpConnectionTimeout;
 
   /**
    * Sets the default socket timeout (SO_TIMEOUT) in milliseconds which is the
    * timeout for waiting for data. A timeout value of zero is interpreted as
    * an infinite timeout. The default value is zero.
    */
-  final int httpSocketTimeout;
+  int mHttpSocketTimeout;
 
   /**
    * The domain name of the server, default is <code>"10.0.2.2</code> -refers to the localhost from emulator.
    */
-  final String apiDomain;
+  String mApiDomain;
 
   /**
    * The relative path of the server, default is <code>/</code>.
    */
-  final String apiBasepath;
+  String mApiBasepath;
 
   /**
    * The BaasBox app code, default is <code>1234567890</code>.
    */
-  final String appCode;
+  String mAppCode;
 
   /**
    * The authentication type used by the SDK
@@ -59,20 +74,35 @@ class BaasBoxConfig {
    * default is
    * <code>SESSION_TOKEN</code>.
    */
-  final String authenticationType;
-
+  String mAuthenticationType;
 
   /**
    * True if session tokens are not auto refreshed upon expiration
    */
-  final bool sessionTokenExpires;
+  bool mSessionTokenExpires;
 
   /**
    * GCM SenderIds to use for notifications
    */
-  final List<String> senderIds;
+  List<String> mSenderIds;
 
 
-  BaasBoxConfig(this.apiBasepath, this.apiDomain, this.appCode, this.authenticationType, this.httpCharset, this.httpConnectionTimeout, this.httpPort, this.httpSocketTimeout, this.keystoreRes, this.password, this.senderIds, this.sessionTokenExpires, this.useHttps);
+  BaasBoxConfig() {
+
+    mApiBasepath = apiBasepath;
+    mApiDomain = apiDomain;
+    mAppCode = appCode;
+    mAuthenticationType = authenticationType;
+    mHttpCharset = httpCharset;
+    mHttpConnectionTimeout = httpConnectionTimeout;
+    mHttpSocketTimeout = httpSocketTimeout;
+    mHttpPort = httpPort;
+    mKeystoreRes = keystoreRes;
+    mSessionTokenExpires = sessionTokenExpires;
+    mUseHttps = useHttps;
+    mPassword = password;
+
+
+  }
 
 }

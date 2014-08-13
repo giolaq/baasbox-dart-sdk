@@ -7,24 +7,20 @@ class BaasBoxContext {
 
   static BaasBoxContext _baasboxcontext;
 
-  final BaasBoxConfig config;
+  BaasBoxConfig _config;
   BaasBoxRequest baasboxRequest;
-
-  factory BaasBoxContext(BaasBoxConfig config) {
+  
+  factory BaasBoxContext() {
     if (_baasboxcontext == null) {
-      _baasboxcontext = new BaasBoxContext._internal(config);
-      _baasboxcontext.baasboxRequest = new BaasBoxRequest(config);
+      _baasboxcontext = new BaasBoxContext._internal();
+      _baasboxcontext._config = new BaasBoxConfig();
+      _baasboxcontext.baasboxRequest = new BaasBoxRequest(_baasboxcontext._config);
 
     }
     return _baasboxcontext;
   }
 
-  BaasBoxContext._internal(this.config);
-
-  get endpoint => 'http://' + config.apiDomain + ':' + config.httpPort.toString();
-
-  get appcode => config.appCode;
-
+  BaasBoxContext._internal();
 
   /**
      * Asynchronously sends a raw rest request to the server that is specified by
@@ -38,12 +34,11 @@ class BaasBoxContext {
      */
   Future rest(String method, String endpoint, Map body, bool authenticate, [handler()]) {
     Completer completer = new Completer();
-       Future ftr = completer.future;
+    Future ftr = completer.future;
 
     if (endpoint == null) {
       print("endpoint cannot be null");
     } else {
-      endpoint = baasboxRequest.getEndpointRaw(endpoint);
       HttpRequest any = baasboxRequest.any(completer, method, endpoint, body, handler);
 
     }

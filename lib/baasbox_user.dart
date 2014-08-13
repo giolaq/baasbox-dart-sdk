@@ -25,9 +25,8 @@ class BaasBoxUser {
 
     Future ftr;
 
-    BaasBoxContext bbCtxt = new BaasBoxContext(null);
-    var url = bbCtxt.endpoint + '/user';
-
+    BaasBoxContext bbCtxt = new BaasBoxContext();
+    
     var postData = {
       'username': this._username,
       'password': this._password
