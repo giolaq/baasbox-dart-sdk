@@ -187,8 +187,8 @@ void main() {
     });
 
     test('Create User ', () {
-        BaasBoxUser aBBUser = new BaasBoxUser.withUserName("Marco");
-        Future result = aBBUser.signupN();
+        BaasBoxUser aBBUser = new BaasBoxUser.withUserName("Giovanni");
+        Future result = aBBUser.signup();
         expect(result, completes);
 
     });
