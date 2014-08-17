@@ -64,6 +64,10 @@ class BaasBoxRequest {
         request = post(endpoint, body);
         request.onLoadEnd.listen((e) => completer.complete(handler));
         return request;
+      case 'POSTFORM':
+            request = postForm(endpoint, body);
+            request.onLoadEnd.listen((e) => completer.complete(handler));
+            return request;
       case 'PUT':
         return put(endpoint, body);
       case 'DELETE':
@@ -101,6 +105,29 @@ class BaasBoxRequest {
 
     return httpR;
   }
+  
+
+  HttpRequest postForm(String endpoint, [Map body]) {
+    HttpRequest httpR = new HttpRequest();
+
+    httpR
+        ..open('POST', endpoint)
+        ..setRequestHeader(APPCODE_HEADER_NAME, _config.mAppCode)
+        ..setRequestHeader(CONTENT_HEADER, FORM_ENCODED_CONTENT + 'utf-8');
+
+   
+
+    httpR.send(encodeMap(body));
+
+    return httpR;
+  }
+  
+  String encodeMap(Map data) {
+      return data.keys.map((k) {
+        return '${Uri.encodeComponent(k)}=${Uri.encodeComponent(data[k])}';
+      }).join('&');
+    }
+
 
   HttpRequest put(String endpoint, Map body) {
     HttpRequest httpR = new HttpRequest();

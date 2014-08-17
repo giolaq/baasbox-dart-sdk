@@ -174,6 +174,13 @@ void main() {
         expect(result, completes);
 
     });
+
+    test('Login User ', () {
+               BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
+               aBBUser.password = 'test';
+               Future result = aBBUser.login();
+               expect(result, completes);
+    });
   });
 
 }

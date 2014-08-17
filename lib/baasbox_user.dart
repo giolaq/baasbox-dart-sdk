@@ -35,4 +35,41 @@ class BaasBoxUser {
     ftr = bbCtxt.rest("POST", '/user', postData, false);
     return ftr;
   }
+  
+  
+  Future login() {
+      Future ftr;
+
+      BaasBoxContext bbCtxt = new BaasBoxContext();
+     
+      Map requestBody = {
+        'username':  this._username,
+        'password': this._password,
+        'appcode': bbCtxt._config.mAppCode
+      };
+      
+      
+      ftr = bbCtxt.rest("POSTFORM", '/login', requestBody, false);
+
+
+      return ftr;
+
+    }
+  
+  
+  Map handleLoginResponse(HttpRequest request) {
+     Map parsedBody = new Map();
+     if (request.status == 200 || request.status == 201) {
+       parsedBody = JSON.decode(request.response);
+       List roles = [];
+       parsedBody["data"]["user"]["roles"].forEach((element) => roles.add(element['name']));
+       
+     } else {
+       print('Login error ' + request.response);
+     }
+
+     return parsedBody;
+   }
+
+
 }
