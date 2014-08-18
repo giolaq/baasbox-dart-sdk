@@ -18,10 +18,13 @@ class BaasBoxRequest {
 
   final BaasBoxConfig _config;
   final String _apiRoot;
+  BaasBoxContext _bbCtxt;
 
   BaasBoxRequest(BaasBoxConfig config)
       : _config = config,
-        _apiRoot = _initApiRoot(config);
+        _apiRoot = _initApiRoot(config),
+        _bbCtxt = new BaasBoxContext();
+        
 
 
   static String _initApiRoot(BaasBoxConfig config) {
@@ -98,8 +101,13 @@ class BaasBoxRequest {
       // convert the JsonObject data back to a string
       String json = JSON.encode(body);
           httpR.setRequestHeader(CONTENT_HEADER, JSON_CONTENT);
+          
       httpR.send(json);
-    } else httpR.send();
+    } else {
+      httpR.setRequestHeader(BB_SESSION_HEADER_NAME, _bbCtxt.user['token']);
+      httpR.send();
+
+    }
 
     return httpR;
   }

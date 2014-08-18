@@ -9,9 +9,9 @@ class BaasBoxContext {
 
   BaasBoxConfig _config;
   BaasBoxRequest baasboxRequest;
-  
+
   Map user;
-  
+
   factory BaasBoxContext() {
     if (_baasboxcontext == null) {
       _baasboxcontext = new BaasBoxContext._internal();
@@ -42,7 +42,7 @@ class BaasBoxContext {
       print("endpoint cannot be null");
     } else {
       HttpRequest any = baasboxRequest.any(method, endpoint, body);
-      any.onLoadEnd.listen((event) => completer.complete( handleLoginResponse(any) ));
+      any.onLoadEnd.listen((event) => completer.complete(handleLoginResponse(any)));
 
     }
     return ftr;
@@ -62,19 +62,23 @@ class BaasBoxContext {
     Map parsedBody = new Map();
     if (request.status == 200 || request.status == 201) {
       parsedBody = JSON.decode(request.response);
-      List roles = [];
-      parsedBody["data"]["user"]["roles"].forEach((element) => roles.add(element['name']));
+      print(parsedBody);
+      //List roles = [];
+      //parsedBody["data"]["user"]["roles"].forEach((element) => roles.add(element['name']));
       setCurrentUser({
-             "username": parsedBody["data"]["user"]["name"],
-             "token": parsedBody["data"]['X-BB-SESSION'],
-             "roles": roles,
-             "visibleByAnonymousUsers": parsedBody["data"]["visibleByAnonymousUsers"],
-             "visibleByTheUser": parsedBody["data"]["visibleByTheUser"],
-             "visibleByFriends": parsedBody["data"]["visibleByFriends"],
-             "visibleByRegisteredUsers": parsedBody["data"]["visibleByRegisteredUsers"],
-           });    } else {
+        "username": parsedBody["data"]["user"]["name"],
+        "token": parsedBody["data"]['X-BB-SESSION'],
+        // "roles": roles,
+        "visibleByAnonymousUsers": parsedBody["data"]["visibleByAnonymousUsers"],
+        "visibleByTheUser": parsedBody["data"]["visibleByTheUser"],
+        "visibleByFriends": parsedBody["data"]["visibleByFriends"],
+        "visibleByRegisteredUsers": parsedBody["data"]["visibleByRegisteredUsers"],
+      });
+    } else {
       print('Login error ' + request.response);
     }
+
+
 
     return parsedBody;
   }
