@@ -162,38 +162,61 @@ void main() {
 
   group('OO BaasBox Dart SDK User ', () {
     BaasBoxContext bbCtxt;
-    
+
     setUp(() {
       bbCtxt = new BaasBoxContext();
 
     });
 
     test('Create User ', () {
-        BaasBoxUser aBBUser = new BaasBoxUser.withUserName("Giovanni");
-        Future result = aBBUser.signup();
+      BaasBoxUser aBBUser = new BaasBoxUser.withUserName("Giovanni");
+      Future result = aBBUser.signup();
 
-        expect(result, completes);
+      expect(result, completes);
 
     });
 
     test('Login User ', () {
-               BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
-               aBBUser.password = 'test';
-               Future result = aBBUser.login();
-               result.then( (value) => print("Current User " + bbCtxt.getCurrentUser().toString()));
+      BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
+      aBBUser.password = 'test';
+      Future result = aBBUser.login();
+      result.then((value) => print("Current User " + bbCtxt.getCurrentUser().toString()));
 
-               expect(result, completes);
+      expect(result, completes);
     });
-    
-    test('Logout User ', () {
-                  BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
-                  aBBUser.password = 'test';
-                  Future loginFuture = aBBUser.login();
-                  Future result = loginFuture.then( (value) =>  aBBUser.logout()  );
 
-                  expect(result, completes);
-                  
-       });
+    test('Logout User ', () {
+      BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
+      aBBUser.password = 'test';
+      Future loginFuture = aBBUser.login();
+      Future result = loginFuture.then((value) => aBBUser.logout());
+
+      expect(result, completes);
+
+    });
+
+  });
+  group('OO BaasBox Dart SDK Document ', () {
+    BaasBoxContext bbCtxt;
+
+    setUp(() {
+      bbCtxt = new BaasBoxContext();
+
+    });
+
+
+    test('Create Document ', () {
+      BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
+      aBBUser.password = 'test';
+      Future loginFuture = aBBUser.login();
+      BaasBoxDocument bbDocument = new BaasBoxDocument();
+      Future result = loginFuture.then((value) => bbDocument.create("testcollection", {
+        'text': 'ciao da giovanni'
+      }));
+
+      expect(result, completes);
+
+    });
   });
 
 }

@@ -56,14 +56,14 @@ class BaasBoxRequest {
   }
 
 
-  HttpRequest any(String method, String endpointApi, Map body) {
+  HttpRequest any(String method, String endpointApi, Map body, bool requireSessionId ) {
     String endpoint = getEndpointRaw(endpointApi);
     HttpRequest request;
     switch (method) {
       case 'GET':
         return get(endpoint);
       case 'POST':
-        request = post(endpoint, body);
+        request = post(endpoint, body, requireSessionId);
        // request.onLoadEnd.listen((e) => completer.complete());
         return request;
       case 'POSTFORM':
@@ -90,12 +90,17 @@ class BaasBoxRequest {
     return httpR;
   }
 
-  HttpRequest post(String endpoint, [Map body]) {
+  HttpRequest post(String endpoint, Map body, [bool requireSessionId = false]) {
     HttpRequest httpR = new HttpRequest();
 
     httpR
         ..open('POST', endpoint)
         ..setRequestHeader(APPCODE_HEADER_NAME, _config.mAppCode);
+    
+    if( requireSessionId == true) {
+      httpR.setRequestHeader(BB_SESSION_HEADER_NAME, _bbCtxt.user['token']);
+
+    }
 
     if (body != null) {
       // convert the JsonObject data back to a string
@@ -104,7 +109,6 @@ class BaasBoxRequest {
           
       httpR.send(json);
     } else {
-      httpR.setRequestHeader(BB_SESSION_HEADER_NAME, _bbCtxt.user['token']);
       httpR.send();
 
     }

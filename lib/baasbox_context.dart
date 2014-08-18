@@ -41,7 +41,7 @@ class BaasBoxContext {
     if (endpoint == null) {
       print("endpoint cannot be null");
     } else {
-      HttpRequest any = baasboxRequest.any(method, endpoint, body);
+      HttpRequest any = baasboxRequest.any(method, endpoint, body, authenticate);
       any.onLoadEnd.listen((event) => completer.complete(handleLoginResponse(any)));
 
     }

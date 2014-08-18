@@ -64,7 +64,7 @@ class BaasBoxUser {
     
    
 
-    ftr = bbCtxt.rest("POST", '/logout', null, false);
+    ftr = bbCtxt.rest("POST", '/logout', null, true);
     
     return ftr;
 
