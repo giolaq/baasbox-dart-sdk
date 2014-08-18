@@ -171,6 +171,7 @@ void main() {
     test('Create User ', () {
         BaasBoxUser aBBUser = new BaasBoxUser.withUserName("Giovanni");
         Future result = aBBUser.signup();
+
         expect(result, completes);
 
     });
@@ -179,8 +180,20 @@ void main() {
                BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
                aBBUser.password = 'test';
                Future result = aBBUser.login();
+               result.then( (value) => print("Current User " + bbCtxt.getCurrentUser().toString()));
+
                expect(result, completes);
     });
+    
+    test('Logout User ', () {
+                  BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
+                  aBBUser.password = 'test';
+                  Future loginFuture = aBBUser.login();
+                  Future result = loginFuture.then( (value) =>  aBBUser.logout()  );
+
+                  expect(result, completes);
+                  
+       });
   });
 
 }

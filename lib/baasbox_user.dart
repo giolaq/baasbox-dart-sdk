@@ -47,8 +47,7 @@ class BaasBoxUser {
         'password': this._password,
         'appcode': bbCtxt._config.mAppCode
       };
-      
-      
+           
       ftr = bbCtxt.rest("POSTFORM", '/login', requestBody, false);
 
 
@@ -56,20 +55,19 @@ class BaasBoxUser {
 
     }
   
+
   
-  Map handleLoginResponse(HttpRequest request) {
-     Map parsedBody = new Map();
-     if (request.status == 200 || request.status == 201) {
-       parsedBody = JSON.decode(request.response);
-       List roles = [];
-       parsedBody["data"]["user"]["roles"].forEach((element) => roles.add(element['name']));
-       
-     } else {
-       print('Login error ' + request.response);
-     }
+  Future logout() {
+    Future ftr;
 
-     return parsedBody;
-   }
+    BaasBoxContext bbCtxt = new BaasBoxContext();
+    
+   
 
+    ftr = bbCtxt.rest("POST", '/logout', null, false);
+    
+    return ftr;
+
+  }
 
 }

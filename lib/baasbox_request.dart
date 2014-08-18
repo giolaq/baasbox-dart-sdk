@@ -53,20 +53,19 @@ class BaasBoxRequest {
   }
 
 
-  HttpRequest any(Completer completer, String method, String endpointApi, Map body,[handler()]) {
+  HttpRequest any(String method, String endpointApi, Map body) {
     String endpoint = getEndpointRaw(endpointApi);
-    print(endpoint);
     HttpRequest request;
     switch (method) {
       case 'GET':
         return get(endpoint);
       case 'POST':
         request = post(endpoint, body);
-        request.onLoadEnd.listen((e) => completer.complete(handler));
+       // request.onLoadEnd.listen((e) => completer.complete());
         return request;
       case 'POSTFORM':
             request = postForm(endpoint, body);
-            request.onLoadEnd.listen((e) => completer.complete(handler));
+         //   request.onLoadEnd.listen((e) => completer.complete());
             return request;
       case 'PUT':
         return put(endpoint, body);
@@ -93,13 +92,12 @@ class BaasBoxRequest {
 
     httpR
         ..open('POST', endpoint)
-        ..setRequestHeader(APPCODE_HEADER_NAME, _config.mAppCode)
-        ..setRequestHeader(CONTENT_HEADER, JSON_CONTENT);
+        ..setRequestHeader(APPCODE_HEADER_NAME, _config.mAppCode);
 
     if (body != null) {
       // convert the JsonObject data back to a string
       String json = JSON.encode(body);
-
+          httpR.setRequestHeader(CONTENT_HEADER, JSON_CONTENT);
       httpR.send(json);
     } else httpR.send();
 
