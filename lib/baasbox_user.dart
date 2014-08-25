@@ -32,7 +32,7 @@ class BaasBoxUser {
       'password': this._password
     };
 
-    ftr = bbCtxt.rest("POST", '/user', postData, false);
+    ftr = bbCtxt.rest("POST", '/user', false, postData);
     return ftr;
   }
   
@@ -48,7 +48,7 @@ class BaasBoxUser {
         'appcode': bbCtxt._config.mAppCode
       };
            
-      ftr = bbCtxt.rest("POSTFORM", '/login', requestBody, false);
+      ftr = bbCtxt.rest("POSTFORM", '/login', false, requestBody);
 
 
       return ftr;
@@ -64,7 +64,7 @@ class BaasBoxUser {
     
    
 
-    ftr = bbCtxt.rest("POST", '/logout', null, true);
+    ftr = bbCtxt.rest("POST", '/logout', true);
     
     return ftr;
 

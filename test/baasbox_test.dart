@@ -210,9 +210,12 @@ void main() {
       aBBUser.password = 'test';
       Future loginFuture = aBBUser.login();
       BaasBoxDocument bbDocument = new BaasBoxDocument();
-      Future result = loginFuture.then((value) => bbDocument.create("testcollection", {
-        'text': 'ciao da giovanni'
-      }));
+      Future<Map> result = loginFuture.then((value) {
+        bbDocument.create("testcollection", {
+          'text': 'ciao da giovanni'
+        });
+        print("Documento creato $value");
+      });
 
       expect(result, completes);
 

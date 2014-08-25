@@ -34,14 +34,14 @@ class BaasBoxContext {
      * @param authenticate true if the client should try to refresh authentication automatically
      * @param handler      a callback to handle the json response
      */
-  Future rest(String method, String endpoint, Map body, bool authenticate) {
+  Future<Map> rest(String method, String endpoint, bool authenticate, [Map body] ) {
     Completer completer = new Completer();
     Future ftr = completer.future;
 
     if (endpoint == null) {
       print("endpoint cannot be null");
     } else {
-      HttpRequest any = baasboxRequest.any(method, endpoint, body, authenticate);
+      HttpRequest any = baasboxRequest.any(method, endpoint, authenticate, body );
       any.onLoadEnd.listen((event) => completer.complete(handleLoginResponse(any)));
 
     }
@@ -62,7 +62,7 @@ class BaasBoxContext {
     Map parsedBody = new Map();
     if (request.status == 200 || request.status == 201) {
       parsedBody = JSON.decode(request.response);
-      print(parsedBody);
+      //print(parsedBody);
       //List roles = [];
       //parsedBody["data"]["user"]["roles"].forEach((element) => roles.add(element['name']));
       setCurrentUser({

@@ -56,7 +56,7 @@ class BaasBoxRequest {
   }
 
 
-  HttpRequest any(String method, String endpointApi, Map body, bool requireSessionId ) {
+  HttpRequest any(String method, String endpointApi, bool requireSessionId, [Map body]) {
     String endpoint = getEndpointRaw(endpointApi);
     HttpRequest request;
     switch (method) {
