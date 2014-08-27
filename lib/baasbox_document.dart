@@ -50,7 +50,7 @@ class BaasBoxDocument {
     return ftr;
   }
 
-  Future count(String collection) {
+  Future<Map> count(String collection) {
 
     Future ftr;
 

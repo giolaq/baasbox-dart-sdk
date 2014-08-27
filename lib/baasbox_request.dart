@@ -24,7 +24,7 @@ class BaasBoxRequest {
       : _config = config,
         _apiRoot = _initApiRoot(config),
         _bbCtxt = new BaasBoxContext();
-        
+
 
 
   static String _initApiRoot(BaasBoxConfig config) {
@@ -64,12 +64,12 @@ class BaasBoxRequest {
         return get(endpoint);
       case 'POST':
         request = post(endpoint, body, requireSessionId);
-       // request.onLoadEnd.listen((e) => completer.complete());
+        // request.onLoadEnd.listen((e) => completer.complete());
         return request;
       case 'POSTFORM':
-            request = postForm(endpoint, body);
-         //   request.onLoadEnd.listen((e) => completer.complete());
-            return request;
+        request = postForm(endpoint, body);
+        //   request.onLoadEnd.listen((e) => completer.complete());
+        return request;
       case 'PUT':
         return put(endpoint, body);
       case 'DELETE':
@@ -84,8 +84,22 @@ class BaasBoxRequest {
 
   }
 
-  HttpRequest get(String endpoint) {
+  HttpRequest get(String endpoint, [bool requireSessionId = false]) {
     HttpRequest httpR = new HttpRequest();
+
+
+    httpR
+        ..open('GET', endpoint)
+        ..setRequestHeader(APPCODE_HEADER_NAME, _config.mAppCode);
+
+    if (requireSessionId == true) {
+      httpR.setRequestHeader(BB_SESSION_HEADER_NAME, _bbCtxt.user['token']);
+
+    }
+
+
+    httpR.send();
+
 
     return httpR;
   }
@@ -96,8 +110,8 @@ class BaasBoxRequest {
     httpR
         ..open('POST', endpoint)
         ..setRequestHeader(APPCODE_HEADER_NAME, _config.mAppCode);
-    
-    if( requireSessionId == true) {
+
+    if (requireSessionId == true) {
       httpR.setRequestHeader(BB_SESSION_HEADER_NAME, _bbCtxt.user['token']);
 
     }
@@ -105,8 +119,8 @@ class BaasBoxRequest {
     if (body != null) {
       // convert the JsonObject data back to a string
       String json = JSON.encode(body);
-          httpR.setRequestHeader(CONTENT_HEADER, JSON_CONTENT);
-          
+      httpR.setRequestHeader(CONTENT_HEADER, JSON_CONTENT);
+
       httpR.send(json);
     } else {
       httpR.send();
@@ -115,7 +129,7 @@ class BaasBoxRequest {
 
     return httpR;
   }
-  
+
 
   HttpRequest postForm(String endpoint, [Map body]) {
     HttpRequest httpR = new HttpRequest();
@@ -125,18 +139,18 @@ class BaasBoxRequest {
         ..setRequestHeader(APPCODE_HEADER_NAME, _config.mAppCode)
         ..setRequestHeader(CONTENT_HEADER, FORM_ENCODED_CONTENT + 'utf-8');
 
-   
+
 
     httpR.send(encodeMap(body));
 
     return httpR;
   }
-  
+
   String encodeMap(Map data) {
-      return data.keys.map((k) {
-        return '${Uri.encodeComponent(k)}=${Uri.encodeComponent(data[k])}';
-      }).join('&');
-    }
+    return data.keys.map((k) {
+      return '${Uri.encodeComponent(k)}=${Uri.encodeComponent(data[k])}';
+    }).join('&');
+  }
 
 
   HttpRequest put(String endpoint, Map body) {

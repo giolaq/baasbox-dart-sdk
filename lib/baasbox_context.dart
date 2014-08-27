@@ -62,10 +62,9 @@ class BaasBoxContext {
     Map parsedBody = new Map();
     if (request.status == 200 || request.status == 201) {
       parsedBody = JSON.decode(request.response);
-      //print(parsedBody);
       //List roles = [];
       //parsedBody["data"]["user"]["roles"].forEach((element) => roles.add(element['name']));
-      setCurrentUser({
+     /* setCurrentUser({
         "username": parsedBody["data"]["user"]["name"],
         "token": parsedBody["data"]['X-BB-SESSION'],
         // "roles": roles,
@@ -73,7 +72,7 @@ class BaasBoxContext {
         "visibleByTheUser": parsedBody["data"]["visibleByTheUser"],
         "visibleByFriends": parsedBody["data"]["visibleByFriends"],
         "visibleByRegisteredUsers": parsedBody["data"]["visibleByRegisteredUsers"],
-      });
+      });*/
     } else {
       print('Login error ' + request.response);
     }

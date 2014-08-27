@@ -213,9 +213,25 @@ void main() {
       Future<Map> result = loginFuture.then((value) {
         bbDocument.create("testcollection", {
           'text': 'ciao da giovanni'
-        });
-        print("Documento creato $value");
+        }).then ( (createResponse) => print("Documento creato $createResponse"));
+        
       });
+
+      expect(result, completes);
+
+    });
+    
+
+    test('Count Documents ', () {
+      BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
+      aBBUser.password = 'test';
+      Future loginFuture = aBBUser.login();
+      BaasBoxDocument bbDocument = new BaasBoxDocument();
+      Future<Map> result = loginFuture.then( (value) {
+        bbDocument.count("testcollection").then( (onValue) => print("Count $onValue"));
+
+      });
+
 
       expect(result, completes);
 
