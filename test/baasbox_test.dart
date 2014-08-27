@@ -184,6 +184,15 @@ void main() {
 
       expect(result, completes);
     });
+    
+    test('Fetch User ', () {
+         BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
+         aBBUser.password = 'test';
+         Future result = aBBUser.login();
+         result.then((value) => aBBUser.fetch('test').then( (onValue) => print(onValue)));
+
+         expect(result, completes);
+       });
 
     test('Logout User ', () {
       BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");

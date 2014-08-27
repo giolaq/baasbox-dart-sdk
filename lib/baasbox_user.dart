@@ -75,5 +75,19 @@ class BaasBoxUser {
     return ftr;
 
   }
+  
+
+  Future fetch(String user) {
+    Future ftr;
+
+    BaasBoxContext bbCtxt = new BaasBoxContext();
+
+
+
+    ftr = bbCtxt.rest("GET", '/user/$user', true);
+
+    return ftr;
+
+  }
 
 }
