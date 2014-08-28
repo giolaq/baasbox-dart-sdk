@@ -91,7 +91,7 @@ void main() {
       Future<Map> result = loginFuture.then((value) {
         bbDocument.create("testcollection", {
           'text': 'ciao da giovanni'
-        }).then((createResponse) => print("Documento creato $createResponse"));
+        }).then((createResponse) => print("Documento creato " + bbDocument.id));
 
       });
 
@@ -112,7 +112,28 @@ void main() {
       expect(result, completes);
 
     });
-  
+
+
+
+    test('Update Document field ', () {
+      BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
+      aBBUser.password = 'test';
+      Future loginFuture = aBBUser.login();
+      BaasBoxDocument bbDocument = new BaasBoxDocument();
+      Future<Map> result = loginFuture.then((value) {
+        bbDocument.create("testcollection", {
+          'text': 'ciao da giovanni'
+        }).then((createResponse) {
+          bbDocument.updateField('text', bbDocument.id, 'testcollection', {
+            'data': 'edited field'
+          }).then((onValue) => print("Edit field $onValue"));
+        });
+
+      });
+
+      expect(result, completes);
+
+    });
   });
 
   group('OO BaasBox Dart SDK Collection ', () {
@@ -151,21 +172,21 @@ void main() {
       expect(result, completes);
 
     });
-    
+
     test('Load Documents ', () {
-        BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
-        aBBUser.password = 'test';
-        Future loginFuture = aBBUser.login();
-        BaasBoxCollection bbCollection = new BaasBoxCollection('testcollection');
-        Future<Map> result = loginFuture.then((value) {
-          bbCollection.loadDocuments().then((onValue) => print("Load Documents $onValue"));
-
-        });
-
-
-        expect(result, completes);
+      BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
+      aBBUser.password = 'test';
+      Future loginFuture = aBBUser.login();
+      BaasBoxCollection bbCollection = new BaasBoxCollection('testcollection');
+      Future<Map> result = loginFuture.then((value) {
+        bbCollection.loadDocuments().then((onValue) => print("Load Documents $onValue"));
 
       });
+
+
+      expect(result, completes);
+
+    });
   });
 
 }

@@ -10,13 +10,19 @@ class BaasBoxDocument {
   double version;
 
 
-  Future create(String collection, Map data) {
+  Future create(String collection, Map dataInDocument) {
 
     Future ftr;
 
     BaasBoxContext bbCtxt = new BaasBoxContext();
 
-    ftr = bbCtxt.rest("POST", '/document/' + collection, true, data);
+    ftr = bbCtxt.rest("POST", '/document/' + collection, true, dataInDocument);
+
+    ftr.then((documentCreated) { 
+      data = documentCreated['data'];
+      id = data['id'];
+    });
+    
     return ftr;
   }
 
@@ -59,5 +65,15 @@ class BaasBoxDocument {
     ftr = bbCtxt.rest("GET", '/document/' + collection + '/count', true);
     return ftr;
   }
- 
+
+  Future<Map> updateField(String fieldName, String documentId, String collection, Map dataToEdit) {
+
+    Future ftr;
+
+    BaasBoxContext bbCtxt = new BaasBoxContext();
+
+    ftr = bbCtxt.rest("PUT", '/document/$collection/$documentId/.$fieldName', true, dataToEdit);
+    return ftr;
+  }
+
 }
