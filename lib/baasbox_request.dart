@@ -61,7 +61,7 @@ class BaasBoxRequest {
     HttpRequest request;
     switch (method) {
       case 'GET':
-        return get(endpoint);
+        return get(endpoint, requireSessionId);
       case 'POST':
         request = post(endpoint, body, requireSessionId);
         // request.onLoadEnd.listen((e) => completer.complete());

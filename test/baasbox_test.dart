@@ -35,7 +35,7 @@ void main() {
          BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
          aBBUser.password = 'test';
          Future result = aBBUser.login();
-         result.then((value) => aBBUser.fetch('test').then( (onValue) => print(onValue)));
+         result.then((value) => aBBUser.fetch('test').then( (onValue) => print("Fetch User $onValue")));
 
          expect(result, completes);
        });
