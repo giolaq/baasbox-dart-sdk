@@ -26,5 +26,13 @@ class BaasBoxCollection {
     ftr = bbCtxt.rest("DELETE", '/admin/collection/$name', true);
     return ftr;
   }
+  
+  
+   Future<Map> loadDocuments() {
+     Future ftr;
+     BaasBoxContext bbCtxt = new BaasBoxContext();
+     ftr = bbCtxt.rest('GET', '/document/$name', true);
+     return ftr;
+   }
 
 }

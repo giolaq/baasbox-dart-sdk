@@ -59,4 +59,5 @@ class BaasBoxDocument {
     ftr = bbCtxt.rest("GET", '/document/' + collection + '/count', true);
     return ftr;
   }
+ 
 }

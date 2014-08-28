@@ -109,49 +109,63 @@ void main() {
         bbDocument.count("testcollection").then((onValue) => print("Count $onValue"));
 
       });
+      expect(result, completes);
 
+    });
+  
+  });
+
+  group('OO BaasBox Dart SDK Collection ', () {
+    BaasBoxContext bbCtxt;
+
+    setUp(() {
+      bbCtxt = new BaasBoxContext();
+
+    });
+
+
+    test('Create Collection ', () {
+      BaasBoxUser aBBUser = new BaasBoxUser.withUserName("admin");
+      aBBUser.password = 'admin';
+      Future loginFuture = aBBUser.login();
+      BaasBoxCollection bbCollection = new BaasBoxCollection('collectionnew');
+      Future<Map> result = loginFuture.then((value) {
+        bbCollection.create().then((createResponse) => print("Collection created $createResponse"));
+
+      });
 
       expect(result, completes);
 
     });
-  });
-  
-  group('OO BaasBox Dart SDK Collection ', () {
-     BaasBoxContext bbCtxt;
 
-     setUp(() {
-       bbCtxt = new BaasBoxContext();
+    test('Delete Collection ', () {
+      BaasBoxUser aBBUser = new BaasBoxUser.withUserName("admin");
+      aBBUser.password = 'admin';
+      Future loginFuture = aBBUser.login();
+      BaasBoxCollection bbCollection = new BaasBoxCollection('collectionnew');
+      Future<Map> result = loginFuture.then((value) {
+        bbCollection.delete().then((createResponse) => print("Collection deleted $createResponse"));
 
-     });
-     
-     
-     test('Create Collection ', () {
-         BaasBoxUser aBBUser = new BaasBoxUser.withUserName("admin");
-         aBBUser.password = 'admin';
-         Future loginFuture = aBBUser.login();
-         BaasBoxCollection bbCollection = new BaasBoxCollection('collectionnew');
-         Future<Map> result = loginFuture.then((value) {
-           bbCollection.create().then((createResponse) => print("Collection created $createResponse"));
+      });
 
-         });
+      expect(result, completes);
 
-         expect(result, completes);
+    });
+    
+    test('Load Documents ', () {
+        BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
+        aBBUser.password = 'test';
+        Future loginFuture = aBBUser.login();
+        BaasBoxCollection bbCollection = new BaasBoxCollection('testcollection');
+        Future<Map> result = loginFuture.then((value) {
+          bbCollection.loadDocuments().then((onValue) => print("Load Documents $onValue"));
 
-       });
-     
-     test('Delete Collection ', () {
-            BaasBoxUser aBBUser = new BaasBoxUser.withUserName("admin");
-            aBBUser.password = 'admin';
-            Future loginFuture = aBBUser.login();
-            BaasBoxCollection bbCollection = new BaasBoxCollection('collectionnew');
-            Future<Map> result = loginFuture.then((value) {
-              bbCollection.delete().then((createResponse) => print("Collection deleted $createResponse"));
+        });
 
-            });
 
-            expect(result, completes);
+        expect(result, completes);
 
-          });
+      });
   });
 
 }
