@@ -63,6 +63,38 @@ void main() {
       expect(result, completes);
     });
 
+
+    test('Follow User ', () {
+      BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
+      aBBUser.password = 'test';
+      Future loginFuture = aBBUser.login();
+      Future result = loginFuture.then((value) => aBBUser.follow('Giovanni'));
+
+      expect(result, completes);
+
+    });
+
+
+    test('Followers User ', () {
+      BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
+      aBBUser.password = 'test';
+      Future loginFuture = aBBUser.login();
+      Future result = loginFuture.then((value) => aBBUser.followers().then((onValue) => print('Followers ' + aBBUser.followersList.toString())));
+
+      expect(result, completes);
+
+    });
+
+    test('Unfollow', () {
+      BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
+      aBBUser.password = 'test';
+      Future loginFuture = aBBUser.login();
+      Future result = loginFuture.then((value) => aBBUser.unfollow('Giovanni'));
+
+      expect(result, completes);
+
+    });
+
     test('Logout User ', () {
       BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
       aBBUser.password = 'test';
@@ -92,6 +124,23 @@ void main() {
         bbDocument.create("testcollection", {
           'text': 'ciao da giovanni'
         }).then((createResponse) => print("Documento creato " + bbDocument.id));
+
+      });
+
+      expect(result, completes);
+
+    });
+
+
+    test('Delete Document ', () {
+      BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
+      aBBUser.password = 'test';
+      Future loginFuture = aBBUser.login();
+      BaasBoxDocument bbDocument = new BaasBoxDocument();
+      Future<Map> result = loginFuture.then((value) {
+        bbDocument.create("testcollection", {
+          'text': 'da cancellare'
+        }).then((createResponse) => bbDocument.delete('testcollection').then((onValue) => print('Delete Document $onValue')));
 
       });
 

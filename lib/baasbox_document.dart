@@ -46,13 +46,13 @@ class BaasBoxDocument {
     return ftr;
   }
 
-  Future delete(String documentId, String collection) {
+  Future delete(String collection) {
 
     Future ftr;
 
     BaasBoxContext bbCtxt = new BaasBoxContext();
 
-    ftr = bbCtxt.rest("DELETE", '/document/' + collection + '/' + documentId, true);
+    ftr = bbCtxt.rest("DELETE", '/document/' + collection + '/' + id, true);
     return ftr;
   }
 

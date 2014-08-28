@@ -9,6 +9,7 @@ class BaasBoxUser {
   String _authToken;
   String _signupDate;
   String _status;
+  List followersList;
 
   HashSet<String> roles;
 
@@ -117,5 +118,35 @@ class BaasBoxUser {
     return ftr;
   }
 
+  
+  Future follow(String userToFollow) {
+
+     Future ftr;
+
+     BaasBoxContext bbCtxt = new BaasBoxContext();
+
+     ftr = bbCtxt.rest("POST", '/follow/$userToFollow', true);
+     return ftr;
+   }
+
+  Future unfollow(String userToFollow) {
+
+     Future ftr;
+
+     BaasBoxContext bbCtxt = new BaasBoxContext();
+
+     ftr = bbCtxt.rest("DELETE", '/follow/$userToFollow', true);
+     return ftr;
+   }
+
+  Future followers() {
+
+      Future ftr;
+
+      BaasBoxContext bbCtxt = new BaasBoxContext();
+
+      ftr = bbCtxt.rest("GET", '/followers/$_username', true).then( (onResponse) { print(onResponse);followersList = onResponse['data']; });
+      return ftr;
+    }
 
 }
