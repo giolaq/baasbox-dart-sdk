@@ -25,27 +25,29 @@ void main() {
 
 void login(MouseEvent event) {
 
-  BaasBoxUser aBBUser = new BaasBoxUser.withUserName("Giovanni");
+  BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
   aBBUser.password = 'test';
-  aBBUser.login().then((user) => print('Login ok for $user')).catchError((e) => print('Error $e)'));
+  aBBUser.login().then((user) => print('Login ok for test')).catchError((e) => print('Error $e)'));
 
 }
 
 void logout(MouseEvent event) {
 
-  BaasBoxUser aBBUser = new BaasBoxUser.withUserName("Giovanni");
-  aBBUser.logout().then((user) => print('Logout ok for $user')).catchError((e) => print('Error $e)'));
+  BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
+  aBBUser.password = 'test';
+  aBBUser.logout().then((user) => print('Logout ok for test')).catchError((e) => print('Error $e)'));
 }
 
 void signup(MouseEvent event) {
   
-  BaasBoxUser aBBUser = new BaasBoxUser.withUserName("Giovanni");
-  aBBUser.signup().then((user) => print('Signup ok for $user')).catchError((e) => print('Error $e)'));
+  BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
+  aBBUser.password = 'test';
+  aBBUser.signup().then((user) => print('Signup ok for test')).catchError((e) => print('Error $e)'));
 
 }
 
 void fetchCurrentUser(MouseEvent event) {
 
-  BaasBoxUser aBBUser = new BaasBoxUser.withUserName("Giovanni");
-  aBBUser.current().then((user) => print('Current user info ok for $user')).catchError((e) => print('Error $e)'));
+  BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
+  aBBUser.current().then((user) => print('Current user info ok for test')).catchError((e) => print('Error $e)'));
 }

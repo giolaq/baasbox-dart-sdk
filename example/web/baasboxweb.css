@@ -34,17 +34,10 @@ h1, p {
   border: 1px solid #ccc;
   background-color: #fff;
 }
-#sample_text_id {
-  font-size: 24pt;
-  text-align: center;
-  margin-top: 140px;
-  -webkit-user-select: none;
-  user-select: none;
-}
+
 #currentuser {
-  font-size: 24pt;
-  text-align: center;
-  margin-top: 140px;
-  -webkit-user-select: none;
-  user-select: none;
-}
+   width: 30%;
+  height: 60px;
+  position: relative;
+  border: 1px solid #ccc;
+  background-color: #fff;
