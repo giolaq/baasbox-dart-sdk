@@ -2,6 +2,9 @@ import 'dart:html';
 import 'package:baasbox/baasbox.dart';
 
 
+InputElement usernameInputSign;
+InputElement usernameInputLogin;
+
 void main() {
 
   BaasBoxContext bbCtxt;
@@ -21,11 +24,16 @@ void main() {
   querySelector("#currentuser")
       ..text = "Current User"
       ..onClick.listen(fetchCurrentUser);
+  
+  usernameInputSign = querySelector("#user-name-input-to-sign");
+  usernameInputLogin = querySelector("#user-name-input-login");
+
 }
 
 void login(MouseEvent event) {
-
-  BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
+  
+  String username = usernameInputSign.value;
+  BaasBoxUser aBBUser = new BaasBoxUser.withUserName(username);
   aBBUser.password = 'test';
   aBBUser.login().then((user) => print('Login ok for test')).catchError((e) => print('Error $e)'));
 
@@ -40,7 +48,8 @@ void logout(MouseEvent event) {
 
 void signup(MouseEvent event) {
   
-  BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
+  String username = usernameInputSign.value;
+  BaasBoxUser aBBUser = new BaasBoxUser.withUserName(username);
   aBBUser.password = 'test';
   aBBUser.signup().then((user) => print('Signup ok for test')).catchError((e) => print('Error $e)'));
 
