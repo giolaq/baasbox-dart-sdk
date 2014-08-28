@@ -39,6 +39,15 @@ void main() {
 
          expect(result, completes);
        });
+    
+    test('Current User ', () {
+           BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
+           aBBUser.password = 'test';
+           Future result = aBBUser.login();
+           result.then((value) => aBBUser.current().then( (onValue) => print("Current User $onValue")));
+
+           expect(result, completes);
+         });
 
     test('Logout User ', () {
       BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");

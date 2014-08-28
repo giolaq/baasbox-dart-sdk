@@ -89,5 +89,16 @@ class BaasBoxUser {
     return ftr;
 
   }
+  
+  Future current() {
+      Future ftr;
+
+      BaasBoxContext bbCtxt = new BaasBoxContext();
+
+      ftr = bbCtxt.rest("GET", '/me', true);
+
+      return ftr;
+
+    }
 
 }
