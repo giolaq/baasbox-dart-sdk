@@ -71,7 +71,7 @@ class BaasBoxRequest {
         //   request.onLoadEnd.listen((e) => completer.complete());
         return request;
       case 'PUT':
-        return put(endpoint, body);
+        return put(endpoint, body, requireSessionId);
       case 'DELETE':
         return delete(endpoint);
       default:
@@ -153,8 +153,26 @@ class BaasBoxRequest {
   }
 
 
-  HttpRequest put(String endpoint, Map body) {
+  HttpRequest put(String endpoint, Map body, [bool requireSessionId = false]) {
     HttpRequest httpR = new HttpRequest();
+    httpR
+           ..open('PUT', endpoint);
+
+       if (requireSessionId == true) {
+         httpR.setRequestHeader(BB_SESSION_HEADER_NAME, _bbCtxt.user['token']);
+
+       }
+
+       if (body != null) {
+         // convert the JsonObject data back to a string
+         String json = JSON.encode(body);
+         httpR.setRequestHeader(CONTENT_HEADER, JSON_CONTENT);
+
+         httpR.send(json);
+       } else {
+         httpR.send();
+
+       }
 
     return httpR;
   }

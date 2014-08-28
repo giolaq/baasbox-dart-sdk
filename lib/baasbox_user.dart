@@ -100,5 +100,22 @@ class BaasBoxUser {
       return ftr;
 
     }
+  
+
+  Future changePassword(String newPassword) {
+
+    Future ftr;
+
+    BaasBoxContext bbCtxt = new BaasBoxContext();
+
+    var postData = {
+      'old': this._password,
+      'new': newPassword
+    };
+
+    ftr = bbCtxt.rest("PUT", '/me/password', true, postData);
+    return ftr;
+  }
+
 
 }
