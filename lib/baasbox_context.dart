@@ -42,7 +42,7 @@ class BaasBoxContext {
       print("endpoint cannot be null");
     } else {
       HttpRequest any = baasboxRequest.any(method, endpoint, authenticate, body );
-      any.onLoadEnd.listen((event) => completer.complete(handleLoginResponse(any)));
+      any.onLoadEnd.listen((event) => completer.complete(handleResponse(any)));
 
     }
     return ftr;
@@ -58,7 +58,7 @@ class BaasBoxContext {
     return this.user;
   }
 
-  Map handleLoginResponse(HttpRequest request) {
+  Map handleResponse(HttpRequest request) {
     Map parsedBody = new Map();
     if (request.status == 200 || request.status == 201) {
       parsedBody = JSON.decode(request.response);
@@ -74,7 +74,7 @@ class BaasBoxContext {
         "visibleByRegisteredUsers": parsedBody["data"]["visibleByRegisteredUsers"],
       });*/
     } else {
-      print('Login error ' + request.response);
+      print('Error ' + request.response);
     }
 
 
