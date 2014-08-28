@@ -1,5 +1,5 @@
 import 'dart:html';
-import 'package:baasbox/baasbox.dart';
+import '../../lib/baasbox.dart';
 
 
 void main() {
