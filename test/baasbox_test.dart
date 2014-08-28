@@ -115,5 +115,43 @@ void main() {
 
     });
   });
+  
+  group('OO BaasBox Dart SDK Collection ', () {
+     BaasBoxContext bbCtxt;
+
+     setUp(() {
+       bbCtxt = new BaasBoxContext();
+
+     });
+     
+     
+     test('Create Collection ', () {
+         BaasBoxUser aBBUser = new BaasBoxUser.withUserName("admin");
+         aBBUser.password = 'admin';
+         Future loginFuture = aBBUser.login();
+         BaasBoxCollection bbCollection = new BaasBoxCollection('collectionnew');
+         Future<Map> result = loginFuture.then((value) {
+           bbCollection.create().then((createResponse) => print("Collection created $createResponse"));
+
+         });
+
+         expect(result, completes);
+
+       });
+     
+     test('Delete Collection ', () {
+            BaasBoxUser aBBUser = new BaasBoxUser.withUserName("admin");
+            aBBUser.password = 'admin';
+            Future loginFuture = aBBUser.login();
+            BaasBoxCollection bbCollection = new BaasBoxCollection('collectionnew');
+            Future<Map> result = loginFuture.then((value) {
+              bbCollection.delete().then((createResponse) => print("Collection deleted $createResponse"));
+
+            });
+
+            expect(result, completes);
+
+          });
+  });
 
 }

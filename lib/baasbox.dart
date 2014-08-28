@@ -12,4 +12,5 @@ part 'baasbox_config.dart';
 part 'baasbox_user.dart';
 part 'baasbox_document.dart';
 part 'baasbox_request.dart';
+part 'baasbox_collection.dart';
 

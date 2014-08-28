@@ -73,7 +73,7 @@ class BaasBoxRequest {
       case 'PUT':
         return put(endpoint, body, requireSessionId);
       case 'DELETE':
-        return delete(endpoint);
+        return delete(endpoint, requireSessionId);
       default:
         return null;
     }
@@ -155,30 +155,40 @@ class BaasBoxRequest {
 
   HttpRequest put(String endpoint, Map body, [bool requireSessionId = false]) {
     HttpRequest httpR = new HttpRequest();
-    httpR
-           ..open('PUT', endpoint);
+    httpR..open('PUT', endpoint);
 
-       if (requireSessionId == true) {
-         httpR.setRequestHeader(BB_SESSION_HEADER_NAME, _bbCtxt.user['token']);
+    if (requireSessionId == true) {
+      httpR.setRequestHeader(BB_SESSION_HEADER_NAME, _bbCtxt.user['token']);
 
-       }
+    }
 
-       if (body != null) {
-         // convert the JsonObject data back to a string
-         String json = JSON.encode(body);
-         httpR.setRequestHeader(CONTENT_HEADER, JSON_CONTENT);
+    if (body != null) {
+      // convert the JsonObject data back to a string
+      String json = JSON.encode(body);
+      httpR.setRequestHeader(CONTENT_HEADER, JSON_CONTENT);
 
-         httpR.send(json);
-       } else {
-         httpR.send();
+      httpR.send(json);
+    } else {
+      httpR.send();
 
-       }
+    }
 
     return httpR;
   }
 
-  HttpRequest delete(String endpoint) {
+  HttpRequest delete(String endpoint, [bool requireSessionId = false]) {
     HttpRequest httpR = new HttpRequest();
+    httpR..open('DELETE', endpoint);
+
+    if (requireSessionId == true) {
+      httpR.setRequestHeader(BB_SESSION_HEADER_NAME, _bbCtxt.user['token']);
+
+    }
+
+
+    httpR.send();
+
+
 
     return httpR;
   }
