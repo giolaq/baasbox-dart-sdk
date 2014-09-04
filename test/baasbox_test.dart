@@ -183,6 +183,24 @@ void main() {
       expect(result, completes);
 
     });
+    
+    test('Grant Permissions on Document ', () {
+          BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
+          aBBUser.password = 'test';
+          Future loginFuture = aBBUser.login();
+          BaasBoxDocument bbDocument = new BaasBoxDocument();
+          Future<Map> result = loginFuture.then((value) {
+            bbDocument.create("testcollection", {
+              'text': 'ciao da giovanni'
+            }).then((createResponse) {
+              bbDocument.grantPermissions('all', 'test');
+            });
+
+          });
+
+          expect(result, completes);
+
+        });
   });
 
   group('OO BaasBox Dart SDK Collection ', () {

@@ -148,5 +148,7 @@ class BaasBoxUser {
       ftr = bbCtxt.rest("GET", '/followers/$_username', true).then( (onResponse) { print(onResponse);followersList = onResponse['data']; });
       return ftr;
     }
+  
+ 
 
 }

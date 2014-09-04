@@ -13,14 +13,16 @@ class BaasBoxDocument {
   Future create(String collection, Map dataInDocument) {
 
     Future ftr;
+    
 
     BaasBoxContext bbCtxt = new BaasBoxContext();
 
     ftr = bbCtxt.rest("POST", '/document/' + collection, true, dataInDocument);
 
     ftr.then((documentCreated) { 
-      data = documentCreated['data'];
-      id = data['id'];
+      this.data = documentCreated['data'];
+      this.id = data['id'];
+      this.collection = collection;
     });
     
     return ftr;
@@ -74,6 +76,16 @@ class BaasBoxDocument {
 
     ftr = bbCtxt.rest("PUT", '/document/$collection/$documentId/.$fieldName', true, dataToEdit);
     return ftr;
+  }
+  
+  Future grantPermissions(String action, String username) {
+
+     Future ftr;
+
+     BaasBoxContext bbCtxt = new BaasBoxContext();
+
+     ftr = bbCtxt.rest("PUT", '/document/$collection/$id/$action/user/$username', true);
+     return ftr;
   }
 
 }
