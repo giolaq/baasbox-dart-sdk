@@ -21,6 +21,7 @@ class BaasBoxUser {
 
   set password(String password) => _password = password;
 
+  get username => _username;
 
   Future signup() {
 
@@ -149,6 +150,16 @@ class BaasBoxUser {
       return ftr;
     }
   
+  
+  Future<Map> fetchUsers() {
+
+        Future ftr;
+
+        BaasBoxContext bbCtxt = new BaasBoxContext();
+
+        ftr = bbCtxt.rest("GET", '/users', true);
+        return ftr;
+      }
  
 
 }

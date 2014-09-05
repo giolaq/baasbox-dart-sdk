@@ -94,6 +94,18 @@ void main() {
       expect(result, completes);
 
     });
+    
+
+    test('Fetch Users ', () {
+      BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
+      aBBUser.password = 'test';
+      Future loginFuture = aBBUser.login();
+      Future result = loginFuture.then((value) => aBBUser.fetchUsers().then( (onValue) => print("Fetch users $onValue")));
+
+      expect(result, completes);
+
+    });
+
 
     test('Logout User ', () {
       BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
