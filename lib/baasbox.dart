@@ -14,4 +14,4 @@ part 'baasbox_document.dart';
 part 'baasbox_request.dart';
 part 'baasbox_collection.dart';
 part 'baasbox_asset.dart';
-
+part 'baasbox_push_notification.dart';
