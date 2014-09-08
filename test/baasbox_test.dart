@@ -268,4 +268,55 @@ void main() {
     });
   });
 
+  group('OO BaasBox Dart SDK Push Notifications ', () {
+ 
+     test('Enable a Push Notification ', () {
+       BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
+       aBBUser.password = 'test';
+       Future loginFuture = aBBUser.login();
+       BaasBoxPushNotification pushNotification = new BaasBoxPushNotification('android', '1010');
+       Future<Map> result = loginFuture.then((value) {
+         pushNotification.enable().then((response) => print("Push Notification enabled $response"));
+
+       });
+
+       expect(result, completes);
+
+     });
+     
+
+     test('Disable a Push Notification ', () {
+       BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
+       aBBUser.password = 'test';
+       Future loginFuture = aBBUser.login();
+       BaasBoxPushNotification pushNotification = new BaasBoxPushNotification('android', '1010');
+       Future<Map> result = loginFuture.then((value) {
+         pushNotification.disable().then((response) => print("Push Notification disabled $response"));
+
+       });
+
+       expect(result, completes);
+
+     });
+     
+     test('Send a Push Notification ', () {
+           BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
+           aBBUser.password = 'test';
+           Future loginFuture = aBBUser.login();
+           BaasBoxPushNotification pushNotification = new BaasBoxPushNotification('android', '1010');
+           Future<Map> result = loginFuture.then((value) {
+             pushNotification.enable().then((enableResponse) {
+             
+               pushNotification.send('Giovanni', { 'message' : 'hi from test'}).
+                then( (response) =>  print("Push Notification sent $response") );
+             
+             });
+
+           });
+
+           expect(result, completes);
+
+         });
+  });
+
 }
