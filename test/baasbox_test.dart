@@ -94,13 +94,13 @@ void main() {
       expect(result, completes);
 
     });
-    
+
 
     test('Fetch Users ', () {
       BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
       aBBUser.password = 'test';
       Future loginFuture = aBBUser.login();
-      Future result = loginFuture.then((value) => aBBUser.fetchUsers().then( (onValue) => print("Fetch users $onValue")));
+      Future result = loginFuture.then((value) => aBBUser.fetchUsers().then((onValue) => print("Fetch users $onValue")));
 
       expect(result, completes);
 
@@ -195,24 +195,24 @@ void main() {
       expect(result, completes);
 
     });
-    
+
     test('Grant Permissions on Document ', () {
-          BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
-          aBBUser.password = 'test';
-          Future loginFuture = aBBUser.login();
-          BaasBoxDocument bbDocument = new BaasBoxDocument();
-          Future<Map> result = loginFuture.then((value) {
-            bbDocument.create("testcollection", {
-              'text': 'ciao da giovanni'
-            }).then((createResponse) {
-              bbDocument.grantPermissions('all', 'test');
-            });
-
-          });
-
-          expect(result, completes);
-
+      BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
+      aBBUser.password = 'test';
+      Future loginFuture = aBBUser.login();
+      BaasBoxDocument bbDocument = new BaasBoxDocument();
+      Future<Map> result = loginFuture.then((value) {
+        bbDocument.create("testcollection", {
+          'text': 'ciao da giovanni'
+        }).then((createResponse) {
+          bbDocument.grantPermissions('all', 'test');
         });
+
+      });
+
+      expect(result, completes);
+
+    });
   });
 
   group('OO BaasBox Dart SDK Collection ', () {
@@ -269,54 +269,125 @@ void main() {
   });
 
   group('OO BaasBox Dart SDK Push Notifications ', () {
- 
-     test('Enable a Push Notification ', () {
-       BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
-       aBBUser.password = 'test';
-       Future loginFuture = aBBUser.login();
-       BaasBoxPushNotification pushNotification = new BaasBoxPushNotification('android', '1010');
-       Future<Map> result = loginFuture.then((value) {
-         pushNotification.enable().then((response) => print("Push Notification enabled $response"));
 
-       });
+    test('Enable a Push Notification ', () {
+      BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
+      aBBUser.password = 'test';
+      Future loginFuture = aBBUser.login();
+      BaasBoxPushNotification pushNotification = new BaasBoxPushNotification('android', '1010');
+      Future<Map> result = loginFuture.then((value) {
+        pushNotification.enable().then((response) => print("Push Notification enabled $response"));
 
-       expect(result, completes);
+      });
 
-     });
-     
+      expect(result, completes);
 
-     test('Disable a Push Notification ', () {
-       BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
-       aBBUser.password = 'test';
-       Future loginFuture = aBBUser.login();
-       BaasBoxPushNotification pushNotification = new BaasBoxPushNotification('android', '1010');
-       Future<Map> result = loginFuture.then((value) {
-         pushNotification.disable().then((response) => print("Push Notification disabled $response"));
+    });
 
-       });
 
-       expect(result, completes);
+    test('Disable a Push Notification ', () {
+      BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
+      aBBUser.password = 'test';
+      Future loginFuture = aBBUser.login();
+      BaasBoxPushNotification pushNotification = new BaasBoxPushNotification('android', '1010');
+      Future<Map> result = loginFuture.then((value) {
+        pushNotification.disable().then((response) => print("Push Notification disabled $response"));
 
-     });
-     
-     test('Send a Push Notification ', () {
-           BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
-           aBBUser.password = 'test';
-           Future loginFuture = aBBUser.login();
-           BaasBoxPushNotification pushNotification = new BaasBoxPushNotification('android', '1010');
-           Future<Map> result = loginFuture.then((value) {
-             pushNotification.enable().then((enableResponse) {
-             
-               pushNotification.send('Giovanni', { 'message' : 'hi from test'}).
-                then( (response) =>  print("Push Notification sent $response") );
-             
-             });
+      });
 
-           });
+      expect(result, completes);
 
-           expect(result, completes);
+    });
 
-         });
+    test('Send a Push Notification ', () {
+      BaasBoxUser aBBUser = new BaasBoxUser.withUserName("test");
+      aBBUser.password = 'test';
+      Future loginFuture = aBBUser.login();
+      BaasBoxPushNotification pushNotification = new BaasBoxPushNotification('android', '1010');
+      Future<Map> result = loginFuture.then((value) {
+        pushNotification.enable().then((enableResponse) {
+
+          pushNotification.send('Giovanni', {
+            'message': 'hi from test'
+          }).then((response) => print("Push Notification sent $response"));
+
+        });
+
+      });
+
+      expect(result, completes);
+
+    });
+  });
+
+
+  group('OO BaasBox Dart SDK Asset ', () {
+
+    test('Create a JSON Asset ', () {
+      BaasBoxUser aBBUser = new BaasBoxUser.withUserName("admin");
+      aBBUser.password = 'admin';
+      Future loginFuture = aBBUser.login();
+      BaasBoxAsset aJSONAsset = new BaasBoxAsset('anAsset', {
+        'text': 'aaaaaa'
+      });
+      Future<Map> result = loginFuture.then((value) {
+        aJSONAsset.create().then((response) => print("Asset creation $response"));
+
+      });
+
+      expect(result, completes);
+
+    });
+
+    test('Retrieve a JSON Asset ', () {
+      BaasBoxUser aBBUser = new BaasBoxUser.withUserName("admin");
+      aBBUser.password = 'admin';
+      Future loginFuture = aBBUser.login();
+      BaasBoxAsset aJSONAsset = new BaasBoxAsset('anAsset', {
+        'text': 'aaaaaa'
+      });
+      Future<Map> result = loginFuture.then((value) {
+        aJSONAsset.retrieve().then((response) => print("Asset retrieved $response"));
+
+      });
+
+      expect(result, completes);
+
+    });
+
+    test('Delete a JSON Asset ', () {
+      BaasBoxUser aBBUser = new BaasBoxUser.withUserName("admin");
+      aBBUser.password = 'admin';
+      Future loginFuture = aBBUser.login();
+      BaasBoxAsset aJSONAsset = new BaasBoxAsset('anAsset', {
+        'text': 'aaaaaa'
+      });
+      Future<Map> result = loginFuture.then((value) {
+        aJSONAsset.delete().then((response) => print("Asset deleted $response"));
+
+      });
+
+      expect(result, completes);
+
+    });
+
+    test('Fetch JSON Assets ', () {
+      BaasBoxUser aBBUser = new BaasBoxUser.withUserName("admin");
+      aBBUser.password = 'admin';
+      Future loginFuture = aBBUser.login();
+      BaasBoxAsset aJSONAsset = new BaasBoxAsset('anAsset', {
+        'text': 'aaaaaa'
+      });
+      Future<Map> result = loginFuture.then((value) {
+        aJSONAsset.fetch().then((response) => print("Assets fetched $response"));
+
+      });
+
+      expect(result, completes);
+
+    });
+
+
   });
 
 }

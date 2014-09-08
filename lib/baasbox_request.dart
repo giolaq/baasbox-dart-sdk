@@ -67,7 +67,7 @@ class BaasBoxRequest {
         // request.onLoadEnd.listen((e) => completer.complete());
         return request;
       case 'POSTFORM':
-        request = postForm(endpoint, body);
+        request = postForm(endpoint, body, requireSessionId);
         //   request.onLoadEnd.listen((e) => completer.complete());
         return request;
       case 'PUT':
@@ -131,14 +131,18 @@ class BaasBoxRequest {
   }
 
 
-  HttpRequest postForm(String endpoint, [Map body]) {
+  HttpRequest postForm(String endpoint, [Map body, bool requireSessionId = false]) {
     HttpRequest httpR = new HttpRequest();
 
     httpR
         ..open('POST', endpoint)
         ..setRequestHeader(APPCODE_HEADER_NAME, _config.mAppCode)
         ..setRequestHeader(CONTENT_HEADER, FORM_ENCODED_CONTENT + 'utf-8');
+   
+    if (requireSessionId == true) {
+          httpR.setRequestHeader(BB_SESSION_HEADER_NAME, _bbCtxt.user['token']);
 
+        }
 
 
     httpR.send(encodeMap(body));
