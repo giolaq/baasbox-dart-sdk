@@ -117,7 +117,46 @@ void main() {
 
     });
 
+    test('Auto suspended User ', () {
+      BaasBoxUser anUser = new BaasBoxUser.withUserName("test");
+      anUser.password = 'test';
+
+      Future loginFuture = anUser.login();
+      Future result = loginFuture.then((value) => anUser.suspendMe().then((onValue) => print("Auto suspended User $onValue")));
+
+
+      expect(result, completes);
+
+    });
+
+    test('Admin suspend User ', () {
+         BaasBoxUser admin = new BaasBoxUser.withUserName("admin");
+         admin.password = 'admin';
+
+         BaasBoxUser suspendedUser = new BaasBoxUser.withUserName("test");
+
+         Future loginFuture = admin.login();
+         Future result = loginFuture.then((value) => admin.suspend(suspendedUser).then((onValue) => print("Admin reactivate User $onValue")));
+
+         expect(result, completes);
+
+       });
+
+    test('Admin reactivate User ', () {
+      BaasBoxUser admin = new BaasBoxUser.withUserName("admin");
+      admin.password = 'admin';
+
+      BaasBoxUser suspendedUser = new BaasBoxUser.withUserName("test");
+
+      Future loginFuture = admin.login();
+      Future result = loginFuture.then((value) => admin.reactivate(suspendedUser).then((onValue) => print("Admin reactivate User $onValue")));
+
+      expect(result, completes);
+
+    });
+
   });
+
   group('OO BaasBox Dart SDK Document ', () {
     BaasBoxContext bbCtxt;
 
