@@ -428,5 +428,107 @@ void main() {
 
 
   });
+  
+  
+  group('OO BaasBox Dart SDK API Settings ', () {
+
+     test('Fetch API Settings', () {
+       BaasBoxUser aBBUser = new BaasBoxUser.withUserName("admin");
+       aBBUser.password = 'admin';
+       Future loginFuture = aBBUser.login();
+       BaasBoxApiSettings apiSettings = new BaasBoxApiSettings(); 
+       Future<Map> result = loginFuture.then((value) {
+         apiSettings.fetchCurrentSettings();
+       });
+
+       expect(result, completes);
+
+     });
+     
+     
+     test('Fetch API Section Settings', () {
+           BaasBoxUser aBBUser = new BaasBoxUser.withUserName("admin");
+           aBBUser.password = 'admin';
+           Future loginFuture = aBBUser.login();
+           BaasBoxApiSettings apiSettings = new BaasBoxApiSettings(); 
+           Future<Map> result = loginFuture.then((value) {
+             apiSettings.fetchCurrentSettingsSection('Application').then((onValue) => print(onValue));
+           });
+
+           expect(result, completes);
+
+         });
+     
+     test('Update value in API Section Settings', () {
+                BaasBoxUser aBBUser = new BaasBoxUser.withUserName("admin");
+                aBBUser.password = 'admin';
+                Future loginFuture = aBBUser.login();
+                BaasBoxApiSettings apiSettings = new BaasBoxApiSettings(); 
+                Future<Map> result = loginFuture.then((value) {
+                  apiSettings.updateValueInSettings('Application', 'application.name', 'testapp').then((onValue) => print(onValue));
+                });
+
+                expect(result, completes);
+
+              });
+  });
+
+  
+
+  group('OO BaasBox Dart SDK API Access ', () {
+
+     test('Fetch API Access groups', () {
+       BaasBoxUser aBBUser = new BaasBoxUser.withUserName("admin");
+       aBBUser.password = 'admin';
+       Future loginFuture = aBBUser.login();
+       BaasBoxApiAccess apiAccess = new BaasBoxApiAccess(); 
+       Future<Map> result = loginFuture.then((value) {
+         apiAccess.listGroups().then( (onValue) => print('Groups $onValue'));
+       });
+
+       expect(result, completes);
+
+     });
+     test('Read API Access group', () {
+           BaasBoxUser aBBUser = new BaasBoxUser.withUserName("admin");
+           aBBUser.password = 'admin';
+           Future loginFuture = aBBUser.login();
+           BaasBoxApiAccess apiAccess = new BaasBoxApiAccess(); 
+           Future<Map> result = loginFuture.then((value) {
+             apiAccess.readGroup('baasbox.assets').then( (onValue) => print('Group $onValue'));
+           });
+
+           expect(result, completes);
+
+         });
+    
+     
+     test('Disable API Access group', () {
+              BaasBoxUser aBBUser = new BaasBoxUser.withUserName("admin");
+              aBBUser.password = 'admin';
+              Future loginFuture = aBBUser.login();
+              BaasBoxApiAccess apiAccess = new BaasBoxApiAccess(); 
+              Future<Map> result = loginFuture.then((value) {
+                apiAccess.disableGroup('baasbox.assets').then( (onValue) => print('Disable Group $onValue'));
+              });
+
+              expect(result, completes);
+
+            });
+     
+     test('Enable API Access group', () {
+                  BaasBoxUser aBBUser = new BaasBoxUser.withUserName("admin");
+                  aBBUser.password = 'admin';
+                  Future loginFuture = aBBUser.login();
+                  BaasBoxApiAccess apiAccess = new BaasBoxApiAccess(); 
+                  Future<Map> result = loginFuture.then((value) {
+                    apiAccess.enableGroup('baasbox.assets').then( (onValue) => print('Enable Group $onValue'));
+                  });
+
+                  expect(result, completes);
+
+                });
+  
+  });
 
 }

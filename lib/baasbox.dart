@@ -15,3 +15,5 @@ part 'baasbox_request.dart';
 part 'baasbox_collection.dart';
 part 'baasbox_asset.dart';
 part 'baasbox_push_notification.dart';
+part 'baasbox_api_settings.dart';
+part 'baasbox_api_access.dart';
