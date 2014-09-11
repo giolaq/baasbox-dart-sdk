@@ -4,35 +4,16 @@ part of baasbox;
 class BaasBoxCollection {
 
   String name;
+  BaasBoxContext _bbCtxt;
 
-  BaasBoxCollection(this.name);
-
-  Future create() {
-
-    Future ftr;
-
-    BaasBoxContext bbCtxt = new BaasBoxContext();
-
-    ftr = bbCtxt.rest("POST", '/admin/collection/$name', true);
-    return ftr;
+  BaasBoxCollection(this.name) {
+    this._bbCtxt = new BaasBoxContext();
   }
 
+  Future create() => _bbCtxt.rest("POST", '/admin/collection/$name', true);
 
-  Future delete() {
-    Future ftr;
+  Future delete() => _bbCtxt.rest("DELETE", '/admin/collection/$name', true);
 
-    BaasBoxContext bbCtxt = new BaasBoxContext();
-
-    ftr = bbCtxt.rest("DELETE", '/admin/collection/$name', true);
-    return ftr;
-  }
-  
-  
-   Future<Map> loadDocuments() {
-     Future ftr;
-     BaasBoxContext bbCtxt = new BaasBoxContext();
-     ftr = bbCtxt.rest('GET', '/document/$name', true);
-     return ftr;
-   }
+  Future<Map> loadDocuments() => _bbCtxt.rest('GET', '/document/$name', true);
 
 }
