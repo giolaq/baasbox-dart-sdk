@@ -3,17 +3,18 @@ part of baasbox;
 class BaasBoxApiSettings {
  
   List settings;
+  BaasBoxContext _bbCtxt;
+  
+  BaasBoxApiSettings() {
+    this._bbCtxt = new BaasBoxContext();
+  }
 
   Future<Map> fetchCurrentSettings() {
-
     Future ftr;
-   
-
-    BaasBoxContext bbCtxt = new BaasBoxContext();
-
-    ftr = bbCtxt.rest("GET", '/admin/configuration/dump.json', true).
-        then( (onReponse) => this.settings = onReponse['data']);
-        
+    
+    ftr = _bbCtxt.rest("GET", '/admin/configuration/dump.json', true).
+        then( (onReponse) => this.settings = onReponse['data']);   
+    
     return ftr;
   }
 
@@ -21,24 +22,12 @@ class BaasBoxApiSettings {
 
       Future ftr;
      
-
-      BaasBoxContext bbCtxt = new BaasBoxContext();
-
-      ftr = bbCtxt.rest("GET", '/admin/configuration/$sectionName', true).
+      ftr = _bbCtxt.rest("GET", '/admin/configuration/$sectionName', true).
           then( (onReponse) => this.settings = onReponse['data']);
           
       return ftr;
     }
   
-  Future<Map> updateValueInSettings(String sectionName, String key, String value) {
-
-       Future ftr;
-      
-
-       BaasBoxContext bbCtxt = new BaasBoxContext();
-
-       ftr = bbCtxt.rest("PUT", '/admin/configuration/$sectionName/$key/$value', true);           
-       return ftr;
-     }
+  Future<Map> updateValueInSettings(String sectionName, String key, String value) => _bbCtxt.rest("PUT", '/admin/configuration/$sectionName/$key/$value', true);           
 
 }
