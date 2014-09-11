@@ -7,7 +7,11 @@ class BaasBoxAsset {
   Map data;
   String id;
 
-  BaasBoxAsset(this.name, this.meta);
+  BaasBoxContext _bbCtxt;
+
+  BaasBoxAsset(this.name, this.meta) {
+    this._bbCtxt = new BaasBoxContext();
+  }
 
   Future create() {
 
@@ -29,34 +33,10 @@ class BaasBoxAsset {
     return ftr;
   }
 
-  Future<Map> retrieve() {
-    Future ftr;
+  Future<Map> retrieve() => _bbCtxt.rest("GET", '/asset/$name', true);
 
-    BaasBoxContext bbCtxt = new BaasBoxContext();
+  Future<Map> delete() => _bbCtxt.rest("DELETE", '/admin/asset/$name', true);
 
-    ftr = bbCtxt.rest("GET", '/asset/$name', true);
-    return ftr;
-  }
-
-  Future<Map> delete() {
-
-    Future ftr;
-
-    BaasBoxContext bbCtxt = new BaasBoxContext();
-
-    ftr = bbCtxt.rest("DELETE", '/admin/asset/$name', true);
-    return ftr;
-
-  }
-
-  Future<Map> fetch() {
-    Future ftr;
-
-    BaasBoxContext bbCtxt = new BaasBoxContext();
-
-    ftr = bbCtxt.rest("GET", '/admin/asset', true);
-    return ftr;
-  }
-
+  Future<Map> fetch() => _bbCtxt.rest("GET", '/admin/asset', true);
 
 }
