@@ -13,44 +13,32 @@ class BaasBoxUser {
 
   HashSet<String> roles;
 
+  BaasBoxContext _bbCtxt;
 
-  BaasBoxUser(this._username, this._password, this._signupDate, this._status, this._authToken);
+  BaasBoxUser(this._username, this._password, this._signupDate, this._status, this._authToken) {
+    _bbCtxt = new BaasBoxContext();
+  }
 
-
-  BaasBoxUser.withUserName(this._username);
+  BaasBoxUser.withUserName(this._username) {
+    _bbCtxt = new BaasBoxContext();
+  }
 
   set password(String password) => _password = password;
 
   get username => _username;
 
-  Future signup() {
-
-    Future ftr;
-
-    BaasBoxContext bbCtxt = new BaasBoxContext();
-
-    var postData = {
-      'username': this._username,
-      'password': this._password
-    };
-
-    ftr = bbCtxt.rest("POST", '/user', false, postData);
-    return ftr;
-  }
-
-
+  Future signup() => _bbCtxt.rest("POST", '/user', false, { 'username': this._username,'password': this._password });
+    
   Future login() {
     Future ftr;
-
-    BaasBoxContext bbCtxt = new BaasBoxContext();
 
     Map requestBody = {
       'username': this._username,
       'password': this._password,
-      'appcode': bbCtxt._config.mAppCode
+      'appcode': _bbCtxt._config.mAppCode
     };
 
-    ftr = bbCtxt.rest("POSTFORM", '/login', false, requestBody).then((response) => bbCtxt.setCurrentUser({
+    ftr = _bbCtxt.rest("POSTFORM", '/login', false, requestBody).then((response) => _bbCtxt.setCurrentUser({
       "username": response["data"]["user"]["name"],
       "token": response["data"]['X-BB-SESSION'],
       // "roles": roles,
@@ -63,142 +51,26 @@ class BaasBoxUser {
 
   }
 
+  Future logout() => _bbCtxt.rest("POST", '/logout', true);
 
+  Future fetch(String user) => _bbCtxt.rest("GET", '/user/$user', true);
 
-  Future logout() {
-    Future ftr;
+  Future current() => _bbCtxt.rest("GET", '/me', true);
 
-    BaasBoxContext bbCtxt = new BaasBoxContext();
-
-
-
-    ftr = bbCtxt.rest("POST", '/logout', true);
-
-    return ftr;
-
-  }
-
-
-  Future fetch(String user) {
-    Future ftr;
-
-    BaasBoxContext bbCtxt = new BaasBoxContext();
-
-
-
-    ftr = bbCtxt.rest("GET", '/user/$user', true);
-
-    return ftr;
-
-  }
-
-  Future current() {
-    Future ftr;
-
-    BaasBoxContext bbCtxt = new BaasBoxContext();
-
-    ftr = bbCtxt.rest("GET", '/me', true);
-
-    return ftr;
-
-  }
-
-
-  Future changePassword(String newPassword) {
-
-    Future ftr;
-
-    BaasBoxContext bbCtxt = new BaasBoxContext();
-
-    var postData = {
-      'old': this._password,
-      'new': newPassword
-    };
-
-    ftr = bbCtxt.rest("PUT", '/me/password', true, postData);
-    return ftr;
-  }
-
-
-  Future follow(String userToFollow) {
-
-    Future ftr;
-
-    BaasBoxContext bbCtxt = new BaasBoxContext();
-
-    ftr = bbCtxt.rest("POST", '/follow/$userToFollow', true);
-    return ftr;
-  }
-
-  Future unfollow(String userToFollow) {
-
-    Future ftr;
-
-    BaasBoxContext bbCtxt = new BaasBoxContext();
-
-    ftr = bbCtxt.rest("DELETE", '/follow/$userToFollow', true);
-    return ftr;
-  }
-
-  Future followers() {
-
-    Future ftr;
-
-    BaasBoxContext bbCtxt = new BaasBoxContext();
-
-    ftr = bbCtxt.rest("GET", '/followers/$_username', true).then((onResponse) {
-      print(onResponse);
-      followersList = onResponse['data'];
-    });
-    return ftr;
-  }
-
-
-  Future<Map> fetchUsers() {
-
-    Future ftr;
-
-    BaasBoxContext bbCtxt = new BaasBoxContext();
-
-    ftr = bbCtxt.rest("GET", '/users', true);
-    return ftr;
-  }
-
-  Future<Map> suspendMe() {
-
-
-    Future ftr;
-
-    BaasBoxContext bbCtxt = new BaasBoxContext();
-
-    ftr = bbCtxt.rest("PUT", '/me/suspend', true);
-    return ftr;
-
-  }
+  Future changePassword(String newPassword) => _bbCtxt.rest("PUT", '/me/password', true, {'old': this._password,'new': newPassword });
   
-  Future<Map> suspend(BaasBoxUser anUserToSuspend) {
+  Future follow(String userToFollow) => _bbCtxt.rest("POST", '/follow/$userToFollow', true);
 
+  Future unfollow(String userToFollow) => _bbCtxt.rest("DELETE", '/follow/$userToFollow', true);
 
-      Future ftr;
+  Future followers() => _bbCtxt.rest("GET", '/followers/$_username', true).then((onResponse) {followersList = onResponse['data'];});
 
-      BaasBoxContext bbCtxt = new BaasBoxContext();
+  Future<Map> fetchUsers() => _bbCtxt.rest("GET", '/users', true);
 
-      ftr = bbCtxt.rest("PUT", '/admin/user/activate/' + anUserToSuspend.username , true);
-      return ftr;
+  Future<Map> suspendMe() => _bbCtxt.rest("PUT", '/me/suspend', true);
 
-    }
-  
-  
-  Future<Map> reactivate(BaasBoxUser aSuspendedUser) {
+  Future<Map> suspend(BaasBoxUser anUserToSuspend) => _bbCtxt.rest("PUT", '/admin/user/activate/' + anUserToSuspend.username, true);
 
-
-     Future ftr;
-
-     BaasBoxContext bbCtxt = new BaasBoxContext();
-
-     ftr = bbCtxt.rest("PUT", '/admin/user/activate/' + aSuspendedUser.username , true);
-     return ftr;
-
-   }
+  Future<Map> reactivate(BaasBoxUser aSuspendedUser) => _bbCtxt.rest("PUT", '/admin/user/activate/' + aSuspendedUser.username, true);
 
 }

@@ -3,7 +3,7 @@ part of baasbox;
 
 class BaasBoxContext {
 
-  static final String SDK_VERSION = "0.0.2";
+  static final String SDK_VERSION = "0.0.5";
 
   static BaasBoxContext _baasboxcontext;
 
