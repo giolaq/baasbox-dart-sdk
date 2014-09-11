@@ -4,41 +4,15 @@ class BaasBoxPushNotification {
   String os;
   String pushToken;
   
+  BaasBoxContext _bbCtxt;
 
-  BaasBoxPushNotification(this.os, this.pushToken);
-  
-  Future<Map> enable() {
-
-    Future ftr;
-    
-
-    BaasBoxContext bbCtxt = new BaasBoxContext();
-
-    ftr = bbCtxt.rest("PUT", '/push/enable/$os/$pushToken', true);
-
-    return ftr;
+  BaasBoxPushNotification(this.os, this.pushToken) {
+   this._bbCtxt = new BaasBoxContext();
   }
+ 
+  Future<Map> enable() => _bbCtxt.rest("PUT", '/push/enable/$os/$pushToken', true);
 
-  Future<Map> disable() {
+  Future<Map> disable() => _bbCtxt.rest("PUT", '/push/disable/$pushToken', true);
 
-      Future ftr;
-
-      BaasBoxContext bbCtxt = new BaasBoxContext();
-
-      ftr = bbCtxt.rest("PUT", '/push/disable/$pushToken', true);
-
-      return ftr;
-    }
-  
-  Future send(String user, Map dataToSend) {
-
-     Future ftr;
-
-     BaasBoxContext bbCtxt = new BaasBoxContext();
-
-     ftr = bbCtxt.rest("POST", '/push/message/$user', true, dataToSend);
-
-     return ftr;
-   }
-
+  Future send(String user, Map dataToSend)  => _bbCtxt.rest("POST", '/push/message/$user', true, dataToSend);
 }
