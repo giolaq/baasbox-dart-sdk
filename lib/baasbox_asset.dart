@@ -33,7 +33,7 @@ class BaasBoxAsset {
     return ftr;
   }
 
-  Future<Map> retrieve() => _bbCtxt.rest("GET", '/asset/$name', true);
+  Future<Map> retrieve() => _bbCtxt.rest("GET", '/asset/$name/data', true);
 
   Future<Map> delete() => _bbCtxt.rest("DELETE", '/admin/asset/$name', true);
 
