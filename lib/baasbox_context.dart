@@ -12,7 +12,7 @@ class BaasBoxContext {
 
   Map user;
 
-  factory BaasBoxContext(BaasBoxConfig config) {
+  factory BaasBoxContext() {
     if (_baasboxcontext == null) {
       _baasboxcontext = new BaasBoxContext._internal();
       _baasboxcontext._config = new BaasBoxConfig();
