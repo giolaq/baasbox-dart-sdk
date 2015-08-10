@@ -12,7 +12,7 @@ class BaasBoxContext {
 
   Map user;
 
-  factory BaasBoxContext() {
+  factory BaasBoxContext(BaasBoxConfig config) {
     if (_baasboxcontext == null) {
       _baasboxcontext = new BaasBoxContext._internal();
       _baasboxcontext._config = new BaasBoxConfig();
@@ -35,6 +35,21 @@ class BaasBoxContext {
      * @param handler      a callback to handle the json response
      */
   Future<Map> rest(String method, String endpoint, bool authenticate, [Map body] ) {
+    Completer completer = new Completer();
+    Future ftr = completer.future;
+
+    if (endpoint == null) {
+      print("endpoint cannot be null");
+    } else {
+      HttpRequest any = baasboxRequest.any(method, endpoint, authenticate, body );
+      any.onLoadEnd.listen((event) => completer.complete(handleResponse(any)));
+
+    }
+    return ftr;
+
+  }
+
+  Future<Map> restString(String method, String endpoint, bool authenticate, [String body] ) {
     Completer completer = new Completer();
     Future ftr = completer.future;
 

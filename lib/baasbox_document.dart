@@ -29,6 +29,20 @@ class BaasBoxDocument {
     return ftr;
   }
 
+  Future createFromString(String collection, String dataInDocument) {
+
+    Future ftr;
+    ftr = _bbCtxt.restString("POST", '/document/' + collection, true, dataInDocument);
+
+    ftr.then((documentCreated) {
+      this.data = documentCreated['data'];
+      this.id = data['id'];
+      this.collection = collection;
+    });
+
+    return ftr;
+  }
+
   Future<Map> retrieve(String documentId, String collection) => _bbCtxt.rest("GET", '/document/' + collection + '/' + documentId, true);
 
   Future modify(String documentId, String collection, Map data) => _bbCtxt.rest("PUT", '/document/' + collection + '/' + documentId, true, data);

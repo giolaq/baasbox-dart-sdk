@@ -10,7 +10,9 @@ void main() {
     BaasBoxContext bbCtxt;
 
     setUp(() {
-      bbCtxt = new BaasBoxContext();
+      BaasBoxConfig config = BaasBoxConfig();
+      config.apiDomain = "127.0.0.2";
+      bbCtxt = new BaasBoxContext(config);
 
     });
 
