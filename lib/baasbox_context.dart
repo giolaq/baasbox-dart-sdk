@@ -12,6 +12,16 @@ class BaasBoxContext {
 
   Map user;
 
+  factory BaasBoxContext.withConfig(BaasBoxConfig config) {
+    if (_baasboxcontext == null) {
+      _baasboxcontext = new BaasBoxContext._internal();
+      _baasboxcontext._config = config;
+      _baasboxcontext.baasboxRequest = new BaasBoxRequest(_baasboxcontext._config);
+
+    }
+    return _baasboxcontext;
+  }
+
   factory BaasBoxContext() {
     if (_baasboxcontext == null) {
       _baasboxcontext = new BaasBoxContext._internal();
