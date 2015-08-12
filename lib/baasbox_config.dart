@@ -87,6 +87,9 @@ class BaasBoxConfig {
   List<String> mSenderIds;
 
 
+  void set setApiDomain(String apiDomain) {
+    this.apiDomain = apiDomain;
+  }
   BaasBoxConfig() {
 
     mApiBasepath = apiBasepath;
