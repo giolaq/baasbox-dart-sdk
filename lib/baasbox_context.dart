@@ -73,6 +73,10 @@ class BaasBoxContext {
     return this.user;
   }
 
+  void setCurrentDomain(String currentDomain) {
+    BaasBoxConfig.apiDomain = currentDomain;
+  }
+
   Map handleResponse(HttpRequest request) {
     Map parsedBody = new Map();
     if (request.status == 200 || request.status == 201) {
