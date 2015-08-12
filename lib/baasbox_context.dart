@@ -74,7 +74,7 @@ class BaasBoxContext {
   }
 
   void setCurrentDomain(String currentDomain) {
-    BaasBoxConfig.apiDomain = currentDomain;
+    _config.apiDomain = currentDomain;
   }
 
   Map handleResponse(HttpRequest request) {
