@@ -47,6 +47,10 @@ class BaasBoxDocument {
 
   Future modify(String documentId, String collection, Map data) => _bbCtxt.rest("PUT", '/document/' + collection + '/' + documentId, true, data);
 
+  Future modifyFromString(String documentId, String collection, String dataInDocument) =>
+    _bbCtxt.restString("PUT", '/document/' + collection + '/' + documentId, true, dataInDocument);
+
+
   Future delete(String collection) => _bbCtxt.rest("DELETE", '/document/' + collection + '/' + id, true);
 
   Future<Map> count(String collection) => _bbCtxt.rest("GET", '/document/' + collection + '/count', true);

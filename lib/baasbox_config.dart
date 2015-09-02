@@ -2,7 +2,7 @@ part of baasbox;
 
 class BaasBoxConfig {
   static final String apiBasepath = "/";
-  String apiDomain = "127.0.0.1";
+  String apiDomain = "148.6.80.94"; //TODO: configure this parameter
   static final String appCode = "1234567890";
   static final String authenticationType = "SESSION_TOKEN";
   static final String httpCharset = "UTF-8";

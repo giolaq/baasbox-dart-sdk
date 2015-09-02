@@ -99,8 +99,8 @@ class BaasBoxRequest {
        // request = postForm(endpoint, body, requireSessionId);
         //   request.onLoadEnd.listen((e) => completer.complete());
        // return request;
-      //case 'PUT':
-        //return put(endpoint, body, requireSessionId);
+      case 'PUT':
+        return putString(endpoint, body, requireSessionId);
      // case 'DELETE':
        // return delete(endpoint, requireSessionId);
       default:
@@ -227,6 +227,29 @@ class BaasBoxRequest {
       httpR.setRequestHeader(CONTENT_HEADER, JSON_CONTENT);
 
       httpR.send(json);
+    } else {
+      httpR.send();
+
+    }
+
+    return httpR;
+  }
+
+
+
+  HttpRequest putString(String endpoint, String body, [bool requireSessionId = false]) {
+    HttpRequest httpR = new HttpRequest();
+    httpR..open('PUT', endpoint);
+
+    if (requireSessionId == true) {
+      httpR.setRequestHeader(BB_SESSION_HEADER_NAME, _bbCtxt.user['token']);
+
+    }
+
+    if (body != null) {
+      httpR.setRequestHeader(CONTENT_HEADER, JSON_CONTENT);
+
+      httpR.send(body);
     } else {
       httpR.send();
 
